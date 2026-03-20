@@ -1,0 +1,9 @@
+stages:
+  - validate
+
+validate_flows:
+  stage: validate
+  image: python:3.10
+  script:
+    - pip install pyyaml
+    - python3 -c "import yaml, glob; [print('VALID:', f) or yaml.safe_load(open(f).read()) for f in glob.glob('flows/*.yml')]"
