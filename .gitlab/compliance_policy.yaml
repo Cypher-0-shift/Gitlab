@@ -1,0 +1,124 @@
+version: "1.0"
+
+settings:
+  protected_branches:
+    - main
+    - master
+    - production
+  pass_label: "compliance::approved"
+  fail_label: "compliance::failed"
+
+rules:
+  - id: LICENSE_HEADER
+    description: "New source files must have a copyright or SPDX header."
+    severity: FAIL
+    applies_to:
+      new_files_only: true
+      extensions: [.py, .go, .js, .ts, .tsx, .jsx, .java, .rb, .rs, .php]
+    check:
+      type: header_contains_any
+      search_lines: 5
+      patterns:
+        - "Copyright"
+        - "SPDX-License-Identifier"
+        - "Licensed under"
+        - "@license"
+    override_label: "license-header-exempt"
+    remediation: |
+      Add to the first line of the file:
+      # Copyright 2026 [your-name]
+      # SPDX-License-Identifier: MIT
+
+  - id: CHANGELOG
+    description: "MRs targeting main/master must update CHANGELOG.md."
+    severity: FAIL
+    applies_to:
+      target_branches: [main, master, production]
+    check:
+      type: file_changed
+      patterns: [CHANGELOG.md, CHANGELOG, CHANGELOG.rst, CHANGES.md]
+    override_label: "no-changelog-needed"
+    remediation: |
+      Add to CHANGELOG.md:
+      ## [Unreleased]
+      ### Changed
+      - [describe your change here]
+
+  - id: BREAKING_API
+    description: "API spec files have removed fields — may break consumers."
+    severity: WARN
+    applies_to:
+      file_patterns:
+        - openapi.yaml
+        - openapi.yml
+        - swagger.json
+        - swagger.yaml
+        - api-spec.*
+    check:
+      type: diff_removed_lines
+      min_removed_lines: 1
+    override_label: "breaking-change-approved"
+    remediation: |
+      Verify this is intentional. If removing required fields,
+      consider API versioning. Add label 'breaking-change-approved'
+      if the change is deliberate and consumers have been notified.
+
+  - id: TEST_COVERAGE
+    description: "Source changes must be accompanied by test file changes."
+    severity: FAIL
+    applies_to:
+      source_patterns:
+        - "src/**"
+        - "lib/**"
+        - "app/**"
+        - "pkg/**"
+    check:
+      type: paired_test_change
+      test_patterns:
+        - "tests/**"
+        - "test/**"
+        - "**/*_test.py"
+        - "**/*.test.ts"
+        - "**/*.test.js"
+        - "**/*.spec.ts"
+        - "**/*_spec.rb"
+    override_label: "no-test-needed"
+    remediation: |
+      Add or update tests for the changed code.
+      Test files should live in: tests/, test/, or __tests__/
+      Minimum: one test per public function modified.
+
+  - id: MR_DESCRIPTION
+    description: "MR must have a meaningful description."
+    severity: WARN
+    check:
+      type: field_not_empty
+      field: description
+      min_words: 10
+    remediation: |
+      Add a description explaining:
+      - What changed and why
+      - Any deployment notes or breaking changes
+      - Links to related issues
+
+  - id: SECURITY_SCAN_REQUIRED
+    description: "MR must have been security scanned before compliance approval."
+    severity: FAIL
+    check:
+      type: label_present
+      labels:
+        - "ops-orchestrator-security-scanned"
+        - "security::approved"
+    block_if_label: "security::review-required"
+    remediation: |
+      Post @ops-orchestrator-security in an MR comment to trigger
+      the security scan. Re-run compliance after scan completes.
+
+  - id: CONFLICTS
+    description: "MR must not have merge conflicts."
+    severity: FAIL
+    check:
+      type: no_conflicts
+    remediation: |
+      Rebase or merge the target branch into your source branch.
+      Resolve all conflicts, then re-run compliance check.

@@ -1,0 +1,77 @@
+version: "1.0"
+
+project:
+  default_sprint_velocity: 40
+  fibonacci_scale: [1, 2, 3, 5, 8]
+  capacity_ok_max: 40
+  capacity_tight_max: 55
+  component_labels:
+    - backend
+    - frontend
+    - data
+    - auth
+    - infra
+    - testing
+    - fullstack
+
+planning:
+  min_description_words: 30
+  max_tasks: 8
+  dedup_word_threshold: 3
+  assignment_max_open_issues: 5
+  labels:
+    planned: "ops-orchestrator-planned"
+    sprint2: "sprint-2-candidate"
+    blocked: "blocked"
+
+security:
+  skip_extensions:
+    - .md
+    - .txt
+    - .rst
+    - .adoc
+    - .png
+    - .jpg
+    - .svg
+    - .gif
+    - .ico
+    - .lock
+    - .min.js
+  auto_fix_severities:
+    - CRITICAL
+  labels:
+    scanned: "ops-orchestrator-security-scanned"
+    approved: "security::approved"
+    review_required: "security::review-required"
+    pii_detected: "pii-detected"
+
+compliance:
+  policy_file: ".gitlab/compliance_policy.yaml"
+  require_security_scan_before_approval: true
+  audit_trail: true
+  labels:
+    approved: "compliance::approved"
+    failed: "compliance::failed"
+    audit_generated: "audit-trail-generated"
+
+deployment:
+  protected_branches:
+    - main
+    - master
+    - production
+    - staging
+  labels:
+    ready: "deployment::ready"
+    caution: "deployment::caution"
+    blocked: "deployment::blocked"
+    assessed: "ops-orchestrator-deploy-assessed"
+
+estimation:
+  fibonacci_only: true
+  low_confidence_word_threshold: 20
+  labels:
+    needs_refinement: "needs-refinement"
+
+global:
+  attribution: "*Powered by OpsOrchestrator on GitLab Duo · Claude via Anthropic*"
+  dry_run: false
