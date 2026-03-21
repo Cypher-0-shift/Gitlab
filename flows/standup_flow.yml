@@ -16,6 +16,8 @@ definition:
       toolset:
         - tool_name: list_issues
         - tool_name: create_issue_note
+        - tool_name: get_current_user
+        - tool_name: run_glql_query
       ui_log_events:
         - on_agent_final_answer
         - on_tool_execution_success
