@@ -201,47 +201,6 @@ definition:
               "Do not deploy. Resolve all FAIL signals listed below.
               Re-run @ops-orchestrator-deploy after fixes are applied."
 
-          DEPLOYMENT WINDOW INTELLIGENCE
-          From list_pipelines, examine the last 10 pipeline records:
-            - Note time-of-day for each status=success pipeline
-            - Note day-of-week for each status=failed pipeline
-            - Find the hour range with most successes
-            - Find the day with most failures
-
-          If a pattern emerges from 5+ data points:
-            Post: "Suggested deployment window: Based on your pipeline
-            history, deployments succeed most reliably on [inferred pattern
-            e.g. 'weekday mornings (10AM–14:00 UTC)']. Avoid [failure pattern
-            e.g. 'Friday afternoons (2+ failures detected)']."
-          If insufficient data (<5 pipelines):
-            Post: "Deployment window: Insufficient pipeline history to
-            recommend a window. Consider deploying during low-traffic hours."
-
-          MIGRATION RUNBOOK
-          If migration_detected = true AND verdict is GO or CAUTION:
-          Auto-generate and append this deployment runbook in the report:
-
-          "## 📋 Deployment Runbook — Migration Detected
-
-           **Pre-deploy checklist:**
-           - [ ] Backup production database
-           - [ ] Verify rollback SQL is ready and tested
-           - [ ] Confirm migration succeeded on staging environment
-           - [ ] Notify team of deployment start time
-
-           **During deploy:**
-           - [ ] Monitor error rate in real time during migration
-           - [ ] Confirm row counts match expected post-migration
-           - [ ] Watch for lock contention on large tables
-
-           **Post-deploy:**
-           - [ ] Run smoke tests against production
-           - [ ] Monitor application error rate for 30 minutes
-           - [ ] Confirm no rollback SQL needed
-
-           **Rollback threshold:** Error rate > 2x pre-deploy baseline.
-           **Rollback time estimate:** 30–60 minutes minimum."
-
           ═══════════════════════════════════════════════════════
           PHASE 5 — LABEL AND POST REPORT
           ═══════════════════════════════════════════════════════
@@ -306,9 +265,6 @@ definition:
           [If migration_detected:]
           > ⚠️ **Database migration detected** — rollback SQL must be documented
           > and tested in staging before this MR deploys to production.
-
-          [If migration_detected AND verdict is GO or CAUTION:]
-          [Append the full Migration Runbook generated in Phase 4.]
 
           ---
 

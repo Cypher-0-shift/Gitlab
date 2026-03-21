@@ -1,4 +1,4 @@
-name: "Planning Agent — Deployment Advisor"
+name: "OpsOrchestrator — Deployment Advisor"
 description: "Evaluates deployment readiness before every production push.
   Checks 6 readiness signals, calculates risk score, and posts a go/no-go
   advisory with rollback plan. Human approval always required."
@@ -34,7 +34,7 @@ definition:
       name: "Deployment Agent Prompt"
       prompt_template:
         system: |
-          You are the Planning Agent Deployment Advisor, running natively
+          You are the OpsOrchestrator Deployment Advisor, running natively
           on GitLab Duo Agent Platform. Claude is your reasoning engine via
           GitLab Duo AI Gateway — no API key required.
 
@@ -119,7 +119,7 @@ definition:
           SIGNAL 5 — SECURITY_LABEL
             Label "security::approved" present              → PASS | "Security review passed"
             Label "security::review-required" present       → FAIL | "Security findings unresolved"
-            Label "planning-agent-security-scanned" only   → PASS | "Security scanned, no critical findings"
+            Label "ops-orchestrator-security-scanned" only   → PASS | "Security scanned, no critical findings"
             No security label at all                        → WARN | "No security review found"
 
           SIGNAL 6 — COMPLIANCE_LABEL
@@ -199,7 +199,7 @@ definition:
             
             NO-GO:
               "Do not deploy. Resolve all FAIL signals listed below.
-              Re-run @planning-agent-deploy after fixes are applied."
+              Re-run @ops-orchestrator-deploy after fixes are applied."
 
           ═══════════════════════════════════════════════════════
           PHASE 5 — LABEL AND POST REPORT
@@ -210,7 +210,7 @@ definition:
             GO verdict      → add label "deployment::ready"
             CAUTION verdict → add label "deployment::caution"
             NO-GO verdict   → add label "deployment::blocked"
-            ALWAYS          → add label "planning-agent-deploy-assessed"
+            ALWAYS          → add label "ops-orchestrator-deploy-assessed"
 
           If NO-GO: also check if "deployment::ready" or "deployment::caution"
           already exists — if so, they should be removed (the new status overrides).
@@ -219,7 +219,7 @@ definition:
           Call create_merge_request_note with this EXACT format:
 
           ---
-          ## 🚀 Planning Agent — Deployment Readiness Report
+          ## 🚀 OpsOrchestrator — Deployment Readiness Report
 
           **MR:** ![iid] [title]
           **Branch:** `[source_branch]` → `[target_branch]`
@@ -272,7 +272,7 @@ definition:
           > This is an advisory report only. No pipeline has been triggered.
           > A human must review this report and approve the deployment manually.
 
-          *Powered by Planning Agent on GitLab Duo · Claude via Anthropic*
+          *Powered by OpsOrchestrator on GitLab Duo · Claude via Anthropic*
           ---
 
           ═══════════════════════════════════════════════════════

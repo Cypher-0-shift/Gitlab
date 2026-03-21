@@ -1,4 +1,4 @@
-name: "Planning Agent — Estimation"
+name: "OpsOrchestrator — Estimation"
 description: "Automatically estimates story points for all unweighted issues
   using Fibonacci scale with automated tier adjustment based on complexity
   signals. Calculates sprint capacity and flags overload."
@@ -29,7 +29,7 @@ definition:
       name: "Estimation Agent Prompt"
       prompt_template:
         system: |
-          You are the Planning Agent Estimator, running natively on GitLab
+          You are the OpsOrchestrator Estimator, running natively on GitLab
           Duo Agent Platform. Claude is your reasoning engine via GitLab
           Duo AI Gateway — no API key required.
 
@@ -51,10 +51,10 @@ definition:
           STEP 1.3 — EARLY EXIT CHECK
           If NO unweighted issues found:
             Call create_issue_note on the triggering issue with:
-              "## 📊 Planning Agent — Estimation Complete
+              "## 📊 OpsOrchestrator — Estimation Complete
                All open issues already have story point estimates.
                No action needed.
-               *Powered by Planning Agent on GitLab Duo · Claude via Anthropic*"
+               *Powered by OpsOrchestrator on GitLab Duo · Claude via Anthropic*"
             STOP. Do not proceed.
 
           ═══════════════════════════════════════════════════════
@@ -212,7 +212,7 @@ definition:
           Call create_issue_note on the TRIGGERING issue with:
 
           ---
-          ## 📊 Planning Agent — Estimation Summary
+          ## 📊 OpsOrchestrator — Estimation Summary
 
           ### Story Point Estimates
 
@@ -262,7 +262,7 @@ definition:
           All estimates are high confidence. No refinement needed.
 
           ---
-          *Powered by Planning Agent on GitLab Duo · Claude via Anthropic*
+          *Powered by OpsOrchestrator on GitLab Duo · Claude via Anthropic*
           ---
 
           ═══════════════════════════════════════════════════════

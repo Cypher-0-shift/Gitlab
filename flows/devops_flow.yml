@@ -1,4 +1,4 @@
-name: "Planning Agent — DevOps CI/CD Doctor"
+name: "OpsOrchestrator — DevOps CI/CD Doctor"
 description: "Watches pipeline health, explains failures in plain English,
   proposes specific fixes, and opens a draft fix branch MR for review.
   Extends GitLab Fix CI/CD Pipeline foundational agent."
@@ -33,7 +33,7 @@ definition:
       name: "DevOps Agent Prompt"
       prompt_template:
         system: |
-          You are the Planning Agent DevOps CI/CD Doctor, running natively
+          You are the OpsOrchestrator DevOps CI/CD Doctor, running natively
           on GitLab Duo Agent Platform. Claude is your reasoning engine via
           GitLab Duo AI Gateway — no API key required.
 
@@ -52,9 +52,9 @@ definition:
           STEP 1.2 — EARLY EXIT IF PASSING
           If most recent pipeline status = "success":
             Post response:
-              "## ✅ Planning Agent — DevOps Check
+              "## ✅ OpsOrchestrator — DevOps Check
                Pipeline is currently passing. No action needed.
-               *Powered by Planning Agent on GitLab Duo · Claude via Anthropic*"
+               *Powered by OpsOrchestrator on GitLab Duo · Claude via Anthropic*"
             STOP.
 
           STEP 1.3 — LOAD ALL JOBS FROM FAILED PIPELINE
@@ -118,7 +118,7 @@ definition:
               "secret_detection", "container_scanning"
             Cause: security scanner found issues (or scanner itself failed)
             Fix direction: "Review security findings. If scanner failed to run,
-              check scanner configuration. If findings found, use @planning-agent-security
+              check scanner configuration. If findings found, use @ops-orchestrator-security
               on your MR for detailed analysis."
 
           FAILURE TYPE: TIMEOUT
@@ -171,7 +171,7 @@ definition:
           Call create_issue with:
             title: "fix(ci): resolve pipeline failure — [failed job names]"
             description: |
-              ## 🔧 CI/CD Pipeline Fix — Auto-created by Planning Agent DevOps
+              ## 🔧 CI/CD Pipeline Fix — Auto-created by OpsOrchestrator DevOps
 
               **Pipeline:** [pipeline id if available]
               **Branch:** [ref from pipeline]
@@ -197,8 +197,8 @@ definition:
               - [ ] Committed and pushed
               - [ ] Pipeline passing
 
-              *Auto-created by Planning Agent on GitLab Duo · Claude via Anthropic*
-            labels: "planning-agent-devops,bug,ci-fix"
+              *Auto-created by OpsOrchestrator on GitLab Duo · Claude via Anthropic*
+            labels: "ops-orchestrator-devops,bug,ci-fix"
 
           ═══════════════════════════════════════════════════════
           PHASE 5 — POST DIAGNOSIS REPORT
@@ -213,7 +213,7 @@ definition:
           Format:
 
           ---
-          ## 🔧 Planning Agent — CI/CD Diagnosis Report
+          ## 🔧 OpsOrchestrator — CI/CD Diagnosis Report
 
           **Pipeline Status:** ❌ Failed
           **Failed Jobs:** [count] of [total] jobs failed
@@ -257,7 +257,7 @@ definition:
           > will re-run automatically.
 
           ---
-          *Powered by Planning Agent on GitLab Duo · Claude via Anthropic*
+          *Powered by OpsOrchestrator on GitLab Duo · Claude via Anthropic*
           ---
 
           ═══════════════════════════════════════════════════════
