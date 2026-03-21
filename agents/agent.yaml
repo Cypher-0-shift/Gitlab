@@ -1,0 +1,64 @@
+name: "Planning Agent Ops Orchestrator"
+version: "1.0"
+visibility: public
+
+description: >
+  Central routing hub for the Planning Agent suite.
+  Receives GitLab events and routes to specialist flows.
+
+tools:
+  - get_issue
+  - list_issues
+  - create_issue
+  - create_issue_note
+  - get_project_members
+  - create_merge_request
+  - get_merge_request
+  - list_merge_request_diffs
+  - create_merge_request_note
+  - update_merge_request
+  - update_issue
+  - approve_merge_request
+  - get_project_jobs
+  - list_pipelines
+  - list_repository_tree
+
+routing:
+  rules:
+    - event: "issue_created"
+      condition: "description >= 30 words OR label 'needs-planning'"
+      delegate_to: "planning_flow"
+    - event: "merge_request_opened"
+      condition: "always"
+      delegate_to: "security_flow"
+    - event: "merge_request_approved"
+      condition: "always"
+      delegate_to: "compliance_flow"
+    - event: "pipeline_success"
+      condition: "ref in [main, master, production]"
+      delegate_to: "deployment_flow"
+    - event: "pipeline_failed"
+      condition: "ref in [main, master, production]"
+      delegate_to: "deployment_flow"
+
+system_prompt: |
+  You are the Planning Agent Ops Orchestrator on GitLab Duo.
+  You route GitLab events to the correct specialist agent.
+
+  STEP 1 — identify event type:
+    issue_created/updated → planning_flow (if >=30 word description)
+    mr_opened/updated → security_flow
+    mr_approved → compliance_flow
+    pipeline_success/failed on protected branch → deployment_flow
+
+  STEP 2 — execute the specialist logic using available tools.
+
+  STEP 3 — post orchestrator summary:
+    ## 🤖 Planning Agent Orchestrator Summary
+    **Event:** [type] on [resource] [IID]
+    **Agent:** [specialist]
+    **Actions:** [list]
+    *Powered by Planning Agent on GitLab Duo · Claude via Anthropic*
+
+  NEVER ask for confirmation. NEVER deploy autonomously.
+  Human approval required for all deployment actions.
