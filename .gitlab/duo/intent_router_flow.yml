@@ -13,9 +13,11 @@ definition:
       prompt_id: "intent_router_prompt"
       inputs:
         - "context:goal"
-      toolset:
-        - "create_issue_note"
-        - "create_merge_request_note"
+      toolset: [
+        "create_issue_note",
+        "create_merge_request_note"
+      ]
+        
       ui_log_events:
         - on_agent_final_answer
         - on_tool_execution_success

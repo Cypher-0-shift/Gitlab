@@ -13,14 +13,16 @@ definition:
         - "context:goal"
         - "context:project_id"
         - "context:current_user"
-      toolset:
-        - "get_issue"
-        - "list_issues"
-        - "create_issue"
-        - "create_issue_note"
-        - "list_repository_tree"
-        - "create_merge_request"
-        - "get_current_user"
+      toolset: [
+        "get_issue",
+        "list_issues",
+        "create_issue",
+        "create_issue_note",
+        "list_repository_tree",
+        "create_merge_request",
+        "get_current_user"
+      ]
+        
       ui_log_events:
         - "on_agent_final_answer"
         - "on_tool_execution_success"

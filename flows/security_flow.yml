@@ -15,14 +15,16 @@ definition:
         - "context:goal"
         - "context:merge_request_iid"
         - "context:project_id"
-      toolset:
-        - tool_name: "get_merge_request"
-        - tool_name: "list_merge_request_diffs"
-        - tool_name: "create_merge_request_note"
-        - tool_name: "create_merge_request"
-        - tool_name: "update_merge_request"
-        - tool_name: "list_vulnerabilities"
-        - tool_name: "get_repository_file"
+      toolset: [
+        "get_merge_request",
+        "list_merge_request_diffs",
+        "create_merge_request_note",
+        "create_merge_request",
+        "update_merge_request",
+        "list_vulnerabilities",
+        "get_repository_file"
+      ]
+        
       ui_log_events:
         - on_agent_final_answer
         - on_tool_execution_success

@@ -14,16 +14,18 @@ definition:
       inputs:
         - "context:goal"
         - "context:project_id"
-      toolset:
-        - "get_merge_request"
-        - "get_pipeline_errors"
-        - "get_pipeline_failing_jobs"
-        - "get_job_logs"
-        - "create_merge_request_note"
-        - "create_issue_note"
-        - "create_issue"
-        - "update_merge_request"
-        - "list_issues"
+      toolset: [
+        "get_merge_request",
+        "get_pipeline_errors",
+        "get_pipeline_failing_jobs",
+        "get_job_logs",
+        "create_merge_request_note",
+        "create_issue_note",
+        "create_issue",
+        "update_merge_request",
+        "list_issues"
+      ]
+        
       ui_log_events:
         - on_agent_final_answer
         - on_tool_execution_success
