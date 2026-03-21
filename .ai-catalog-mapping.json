@@ -1,0 +1,158 @@
+{
+  "schema_version": "1.0",
+  "agents": {},
+  "flows": {
+    "flows/compliance_flow.yml": {
+      "catalog_id": "gid://gitlab/Ai::Catalog::Item/1005992",
+      "name": "OpsOrchestrator — Compliance Checker",
+      "created_at": "2026-03-21T19:04:00.882Z",
+      "item_consumers": {
+        "group": {
+          "id": "gid://gitlab/Ai::Catalog::ItemConsumer/5584022"
+        },
+        "project": {
+          "id": "gid://gitlab/Ai::Catalog::ItemConsumer/5584023"
+        }
+      },
+      "latest_sync": {
+        "git_tag": "v1.0.0",
+        "catalog_version": "1.0.0",
+        "synced_at": "2026-03-21T19:04:00.882Z",
+        "definition_hash": "34b588150010ab16"
+      }
+    },
+    "flows/deployment_flow.yml": {
+      "catalog_id": "gid://gitlab/Ai::Catalog::Item/1005993",
+      "name": "OpsOrchestrator — Deployment Advisor",
+      "created_at": "2026-03-21T19:04:02.397Z",
+      "item_consumers": {
+        "group": {
+          "id": "gid://gitlab/Ai::Catalog::ItemConsumer/5584024"
+        },
+        "project": {
+          "id": "gid://gitlab/Ai::Catalog::ItemConsumer/5584025"
+        }
+      },
+      "latest_sync": {
+        "git_tag": "v1.0.0",
+        "catalog_version": "1.0.0",
+        "synced_at": "2026-03-21T19:04:02.397Z",
+        "definition_hash": "6ab54aa47fb72cd5"
+      }
+    },
+    "flows/devops_flow.yml": {
+      "catalog_id": "gid://gitlab/Ai::Catalog::Item/1005994",
+      "name": "OpsOrchestrator — DevOps CI/CD Doctor",
+      "created_at": "2026-03-21T19:04:03.868Z",
+      "item_consumers": {
+        "group": {
+          "id": "gid://gitlab/Ai::Catalog::ItemConsumer/5584026"
+        },
+        "project": {
+          "id": "gid://gitlab/Ai::Catalog::ItemConsumer/5584027"
+        }
+      },
+      "latest_sync": {
+        "git_tag": "v1.0.0",
+        "catalog_version": "1.0.0",
+        "synced_at": "2026-03-21T19:04:03.868Z",
+        "definition_hash": "2668b899f55567ff"
+      }
+    },
+    "flows/estimation_flow.yml": {
+      "catalog_id": "gid://gitlab/Ai::Catalog::Item/1005995",
+      "name": "OpsOrchestrator — Estimation",
+      "created_at": "2026-03-21T19:04:05.176Z",
+      "item_consumers": {
+        "group": {
+          "id": "gid://gitlab/Ai::Catalog::ItemConsumer/5584028"
+        },
+        "project": {
+          "id": "gid://gitlab/Ai::Catalog::ItemConsumer/5584029"
+        }
+      },
+      "latest_sync": {
+        "git_tag": "v1.0.0",
+        "catalog_version": "1.0.0",
+        "synced_at": "2026-03-21T19:04:05.176Z",
+        "definition_hash": "b2746f9aecf4617e"
+      }
+    },
+    "flows/intent_router_flow.yml": {
+      "catalog_id": "gid://gitlab/Ai::Catalog::Item/1005996",
+      "name": "OpsOrchestrator — Intent Router",
+      "created_at": "2026-03-21T19:04:06.485Z",
+      "item_consumers": {
+        "group": {
+          "id": "gid://gitlab/Ai::Catalog::ItemConsumer/5584030"
+        },
+        "project": {
+          "id": "gid://gitlab/Ai::Catalog::ItemConsumer/5584031"
+        }
+      },
+      "latest_sync": {
+        "git_tag": "v1.0.0",
+        "catalog_version": "1.0.0",
+        "synced_at": "2026-03-21T19:04:06.485Z",
+        "definition_hash": "60df09238b7a0560"
+      }
+    },
+    "flows/planning_flow.yml": {
+      "catalog_id": "gid://gitlab/Ai::Catalog::Item/1005997",
+      "name": "OpsOrchestrator — Sprint Planner",
+      "created_at": "2026-03-21T19:04:07.970Z",
+      "item_consumers": {
+        "group": {
+          "id": "gid://gitlab/Ai::Catalog::ItemConsumer/5584032"
+        },
+        "project": {
+          "id": "gid://gitlab/Ai::Catalog::ItemConsumer/5584033"
+        }
+      },
+      "latest_sync": {
+        "git_tag": "v1.0.0",
+        "catalog_version": "1.0.0",
+        "synced_at": "2026-03-21T19:04:07.970Z",
+        "definition_hash": "8d321e06ea0ed675"
+      }
+    },
+    "flows/security_flow.yml": {
+      "catalog_id": "gid://gitlab/Ai::Catalog::Item/1005998",
+      "name": "OpsOrchestrator — Security Reviewer",
+      "created_at": "2026-03-21T19:04:09.473Z",
+      "item_consumers": {
+        "group": {
+          "id": "gid://gitlab/Ai::Catalog::ItemConsumer/5584034"
+        },
+        "project": {
+          "id": "gid://gitlab/Ai::Catalog::ItemConsumer/5584035"
+        }
+      },
+      "latest_sync": {
+        "git_tag": "v1.0.0",
+        "catalog_version": "1.0.0",
+        "synced_at": "2026-03-21T19:04:09.473Z",
+        "definition_hash": "b541dc1c632a5a96"
+      }
+    },
+    "flows/standup_flow.yml": {
+      "catalog_id": "gid://gitlab/Ai::Catalog::Item/1005999",
+      "name": "OpsOrchestrator — Standup Digest",
+      "created_at": "2026-03-21T19:04:11.116Z",
+      "item_consumers": {
+        "group": {
+          "id": "gid://gitlab/Ai::Catalog::ItemConsumer/5584036"
+        },
+        "project": {
+          "id": "gid://gitlab/Ai::Catalog::ItemConsumer/5584037"
+        }
+      },
+      "latest_sync": {
+        "git_tag": "v1.0.0",
+        "catalog_version": "1.0.0",
+        "synced_at": "2026-03-21T19:04:11.116Z",
+        "definition_hash": "119b50252f06393d"
+      }
+    }
+  }
+}
