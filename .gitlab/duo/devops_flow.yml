@@ -15,15 +15,15 @@ definition:
         - "context:goal"
         - "context:project_id"
       toolset:
-        - tool_name: "get_merge_request"
-        - tool_name: "get_pipeline_errors"
-        - tool_name: "get_pipeline_failing_jobs"
-        - tool_name: "get_job_logs"
-        - tool_name: "create_merge_request_note"
-        - tool_name: "create_issue_note"
-        - tool_name: "create_issue"
-        - tool_name: "update_merge_request"
-        - tool_name: "list_issues"
+        - "get_merge_request"
+        - "get_pipeline_errors"
+        - "get_pipeline_failing_jobs"
+        - "get_job_logs"
+        - "create_merge_request_note"
+        - "create_issue_note"
+        - "create_issue"
+        - "update_merge_request"
+        - "list_issues"
       ui_log_events:
         - on_agent_final_answer
         - on_tool_execution_success
