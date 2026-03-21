@@ -14,10 +14,8 @@ definition:
       inputs:
         - "context:goal"
       toolset:
-        - list_issues
-        - list_merge_requests
-        - get_project_members
-        - create_issue_note
+        - tool_name: list_issues
+        - tool_name: create_issue_note
       ui_log_events:
         - on_agent_final_answer
         - on_tool_execution_success
@@ -41,9 +39,12 @@ definition:
           ═══════════════════════════════════════════════════════
 
           STEP 1.1 — LOAD TEAM
-          Call get_project_members.
-          Extract: id, username, name for every member.
-          This gives you the full team roster.
+          get_project_members is not available via this toolset.
+          Instead, infer team members from the assignee fields of open issues.
+          As you call list_issues you will discover usernames from assignee data.
+          Build your team roster from those usernames. Leave the assignee field
+          blank for any items where no assignee is present — do not attempt to
+          resolve team membership from any other source.
 
           STEP 1.2 — LOAD ALL OPEN ISSUES
           Call list_issues with state=opened.
@@ -56,15 +57,13 @@ definition:
             - Check updated_at: if >3 days ago → mark as STALE
 
           STEP 1.3 — LOAD ALL OPEN MRs
-          Call list_merge_requests with state=opened.
-          For each MR extract:
-            - iid, title, author username, labels, updated_at
-            - Labels to check:
-                "security::review-required" → security debt (urgent)
-                "compliance::failed" → compliance debt (urgent)
-                "deployment::ready" → waiting for human approval to deploy
-                "ops-orchestrator-security-scanned" → security done
-                "compliance::approved" → compliance done
+          list_merge_requests is not available via this toolset.
+          Use list_issues with label filters to find issues that reference MR
+          activity (e.g. labels "security::review-required", "compliance::failed",
+          "deployment::ready"). Treat these issues as proxies for MR status.
+          Note in the digest: "MR data inferred from issue labels — check GitLab
+          MR list for full details."
+          For MR-related label counts, rely on the issue label data gathered above.
 
           ═══════════════════════════════════════════════════════
           PHASE 2 — ANALYSE PER DEVELOPER

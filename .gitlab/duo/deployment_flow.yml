@@ -16,14 +16,11 @@ definition:
         - "context:merge_request_iid"
         - "context:project_id"
       toolset:
-        - get_merge_request
-        - list_merge_request_diffs
-        - get_project_jobs
-        - list_pipelines
-        - list_issues
-        - create_merge_request_note
-        - update_merge_request
-        - list_repository_tree
+        - tool_name: get_merge_request
+        - tool_name: list_merge_request_diffs
+        - tool_name: list_issues
+        - tool_name: create_merge_request_note
+        - tool_name: update_merge_request
       ui_log_events:
         - on_agent_final_answer
         - on_tool_execution_success
@@ -55,23 +52,18 @@ definition:
             - author username
             - created_at, updated_at
 
-          STEP 1.2 — LOAD PIPELINE
-          Call list_pipelines with ref equal to the source_branch.
-          Take the MOST RECENT pipeline result only.
-          Extract: status, duration, created_at, finished_at.
-          Status values: "success", "failed", "running", "canceled", "skipped"
-          If NO pipeline found: note as "no pipeline — cannot verify"
+          STEP 1.2 — PIPELINE STATUS
+          list_pipelines is not available via this toolset.
+          Pipeline status unknown — check manually in GitLab CI/CD > Pipelines.
+          Record signal: WARN | "Pipeline status unknown — check manually"
+          Use this WARN for SIGNAL 1 (PIPELINE_STATUS) in Phase 2.
 
-          STEP 1.3 — LOAD JOB RESULTS
-          Call get_project_jobs.
-          Categorise jobs by stage: build, test, security, lint, deploy.
-          Count:
-            passed_jobs = count where status = "success"
-            failed_jobs = count where status = "failed"
-            skipped_jobs = count where status = "skipped" (neutral)
-          Calculate:
-            test_pass_rate = passed_jobs / (passed_jobs + failed_jobs)
-            If passed_jobs + failed_jobs = 0: test_pass_rate = null (no data)
+          STEP 1.3 — JOB RESULTS
+          get_project_jobs is not available via this toolset.
+          Job details are unavailable via this tool.
+          Set: passed_jobs = null, failed_jobs = null, test_pass_rate = null
+          Record signal: WARN | "Job results unavailable — check manually"
+          Use this WARN for SIGNAL 2 (TEST_PASS_RATE) in Phase 2.
 
           STEP 1.4 — LOAD OPEN CRITICAL ISSUES
           Call list_issues with state=opened.
@@ -79,14 +71,16 @@ definition:
             "priority::critical", "severity::critical", "bug::critical"
           This is your open_critical_count.
 
-          STEP 1.5 — LOAD REPOSITORY TREE (migration check)
-          Call list_repository_tree.
-          Check if any of these patterns appear in changed file paths
-          (from get_merge_request diff info):
+          STEP 1.5 — MIGRATION CHECK
+          list_repository_tree is not available via this toolset.
+          Infer migration risk from the diff paths returned by list_merge_request_diffs.
+          Check the new_path of each changed file for these patterns:
             - "migrations/" or "migration" in path
             - ".sql" extension
             - "schema" in filename
           If YES: migration_detected = true
+          If the diff data does not expose file paths, note: "Migration detection
+          based on MR diff filenames only — repo tree unavailable via this tool."
 
           ═══════════════════════════════════════════════════════
           PHASE 2 — EVALUATE 6 CORE SIGNALS

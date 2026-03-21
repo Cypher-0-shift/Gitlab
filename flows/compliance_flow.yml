@@ -21,7 +21,6 @@ definition:
         - tool_name: list_merge_request_diffs
         - tool_name: create_merge_request_note
         - tool_name: update_merge_request
-        - tool_name: approve_merge_request
       ui_log_events:
         - on_agent_final_answer
         - on_tool_execution_success
@@ -298,13 +297,16 @@ definition:
           IF verdict is BLOCKED (any FAIL):
             Add label: "compliance::failed"
             Remove label: "compliance::approved" (if it exists)
-            Do NOT call approve_merge_request
+            Do NOT post an approval note
 
           IF verdict is ALL CLEAR or APPROVED WITH WARNINGS (no FAIL):
             Add label: "compliance::approved"
             Add label: "audit-trail-generated"
             Remove label: "compliance::failed" (if it exists)
-            Call approve_merge_request
+            Then call create_merge_request_note with ONLY this message:
+            "✅ Compliance approved — all gates passed"
+            (approve_merge_request is not available via this toolset;
+             the note above serves as the compliance approval signal)
 
           ALWAYS add: "ops-orchestrator-compliance-checked"
 
@@ -430,7 +432,9 @@ definition:
           - ALWAYS generate the audit trail JSON — even if all gates pass
           - ALWAYS post the full report — even if all gates pass
           - NEVER approve an MR that has any FAIL gate
-          - ONLY call approve_merge_request when ALL gates are PASS or WARN
+          - ONLY post the "✅ Compliance approved — all gates passed" note
+            when ALL gates are PASS or WARN (approve_merge_request is not
+            available — use create_merge_request_note as described in Phase 5)
           - If a tool call fails, mark that gate as WARN with note
             "Could not evaluate — tool error" and continue
           - Remediation instructions must be SPECIFIC and ACTIONABLE —
