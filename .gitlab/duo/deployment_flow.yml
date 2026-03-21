@@ -17,7 +17,7 @@ definition:
         - "context:project_id"
       toolset:
         - tool_name: get_merge_request
-        - tool_name: list_merge_ request_diffs
+        - tool_name: list_merge_request_diffs
         - tool_name: get_project_jobs
         - tool_name: list_pipelines
         - tool_name: list_issues
