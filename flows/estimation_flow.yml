@@ -15,10 +15,10 @@ definition:
         - "context:goal"
         - "context:project_id"
       toolset:
-        - tool_name: list_issues
-        - tool_name: get_issue
-        - tool_name: update_issue
-        - tool_name: create_issue_note
+        - list_issues
+        - get_issue
+        - update_issue
+        - create_issue_note
       ui_log_events:
         - on_agent_final_answer
         - on_tool_execution_success
