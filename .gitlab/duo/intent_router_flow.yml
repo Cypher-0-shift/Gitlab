@@ -14,8 +14,8 @@ definition:
       inputs:
         - "context:goal"
       toolset:
-        - tool_name: create_issue_note
-        - tool_name: create_merge_request_note
+        - tool_name: "create_issue_note"
+        - tool_name: "create_merge_request_note"
       ui_log_events:
         - on_agent_final_answer
         - on_tool_execution_success
