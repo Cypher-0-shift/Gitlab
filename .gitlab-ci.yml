@@ -13,8 +13,6 @@ test_dependencies:
   stage: test
   image: python:3.10
   script:
-    - echo "Installing dependencies..."
-    - pip install -r requirements.txt
-    - echo "Running dependency validation..."
-    - python3 -c "import anthropic, fastmcp, nonexistent_package"
+    - echo "Running tests..."
+    - exit 1
   allow_failure: false
