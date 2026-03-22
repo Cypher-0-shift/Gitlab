@@ -1,5 +1,6 @@
 stages:
   - validate
+  - test  
 
 validate_flows:
   stage: validate
@@ -7,3 +8,8 @@ validate_flows:
   script:
     - pip install pyyaml
     - python3 -c "import yaml, glob; [print('VALID:', f) or yaml.safe_load(open(f).read()) for f in glob.glob('flows/*.yml')]"
+intentional_fail_job:
+  stage: test
+  script:
+    - echo "Simulating CI failure"
+    - exit 1
