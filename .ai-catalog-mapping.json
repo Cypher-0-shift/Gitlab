@@ -110,10 +110,10 @@
         }
       },
       "latest_sync": {
-        "git_tag": "v1.0.0",
-        "catalog_version": "1.0.0",
-        "synced_at": "2026-03-21T19:04:07.970Z",
-        "definition_hash": "8d321e06ea0ed675"
+        "git_tag": "v1.0.3",
+        "catalog_version": "1.1.0",
+        "synced_at": "2026-03-22T12:11:04.422Z",
+        "definition_hash": "a70b21107eaaff99"
       }
     },
     "flows/security_flow.yml": {
