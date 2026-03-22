@@ -1,18 +1,9 @@
 {
   "mcpServers": {
     "ops-orchestrator-gcp": {
-      "command": "python3",
-      "args": ["mcp/app.py"],
-      "env": {
-        "PORT": "8080",
-        "GCS_BUCKET": "ops-orchestrator-compliance-vault"
-      },
-      "description": "OpsOrchestrator GCP MCP Server — audit vault + CI/CD webhook",
-      "endpoints": {
-        "webhook": "POST /webhook/gitlab",
-        "dashboard": "GET /",
-        "health": "GET /health"
-      }
+      "transport": "sse",
+      "url": "https://ops-orchestrator-mcp-451049071112.us-central1.run.app/sse",
+      "description": "OpsOrchestrator GCP MCP Server — audit vault + CI/CD webhook"
     }
   }
 }
