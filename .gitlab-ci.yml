@@ -13,12 +13,16 @@ test_dependencies:
   stage: test
   image: python:3.10
   script:
+    - echo "Installing dependencies..."
     - pip install -r requirements.txt
-    - python3 -m pytest tests/ -v
+    - echo "Running dependency validation..."
+    - python3 -c "import anthropic, fastmcp, nonexistent_package"
   allow_failure: false
+```
 
-test_intentional:
-  stage: test
-  script:
-    - echo "Running dependency check..."
-    - python3 -c "import nonexistent_package"
+`nonexistent_package` will definitely cause an `ImportError` and fail the pipeline. Commit and push this — it will fail immediately.
+
+Then once it fails, go to your issue and trigger:
+```
+@ai-opsorchestrator-devops-ci-cd-doctor-gitlab-ai-hackathon 
+my pipeline is failing in the test stage, please diagnose and fix
