@@ -12,4 +12,4 @@ intentional_fail_job:
   stage: test
   script:
     - echo "Simulating CI failure"
-    - exit 1
+    - false 
