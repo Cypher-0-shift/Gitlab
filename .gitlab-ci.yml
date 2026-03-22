@@ -1,6 +1,6 @@
 stages:
   - validate
-
+  - test
 
 validate_flows:
   stage: validate
@@ -9,3 +9,10 @@ validate_flows:
     - pip install pyyaml
     - python3 -c "import yaml, glob; [print('VALID:', f) or yaml.safe_load(open(f).read()) for f in glob.glob('flows/*.yml')]"
 
+test_dependencies:
+  stage: test
+  image: python:3.10
+  script:
+    - pip install -r requirements.txt
+    - python3 -m pytest tests/ -v
+  allow_failure: false
