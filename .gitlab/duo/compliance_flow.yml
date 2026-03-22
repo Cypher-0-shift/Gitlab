@@ -17,7 +17,7 @@ definition:
         - "context:merge_request_iid"
         - "context:project_id"
       toolset: [
-        "get_merge_request",
+        "get_merge_ request",
         "list_merge_request_diffs",
         "create_merge_request_note",
         "update_merge_request",
