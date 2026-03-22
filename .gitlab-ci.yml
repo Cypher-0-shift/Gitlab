@@ -6,5 +6,35 @@ validate_flows:
   stage: validate
   image: python:3.10
   script:
+    # 1. Validate every flow file in flows/ is valid YAML
     - pip install pyyaml
     - python3 -c "import yaml, glob; [print('VALID:', f) or yaml.safe_load(open(f).read()) for f in glob.glob('flows/*.yml')]"
+    # 2. Ensure flows/ and .gitlab/duo/ are in sync (no silent drift)
+    - |
+      python3 - << 'PYEOF'
+      import glob, sys
+      flows = sorted(glob.glob("flows/*.yml"))
+      mismatches = []
+      for f in flows:
+          name = f.split("/")[-1]
+          duo_path = f".gitlab/duo/{name}"
+          try:
+              a = open(f).read()
+              b = open(duo_path).read()
+              if a != b:
+                  mismatches.append(f"{f} != {duo_path}")
+          except FileNotFoundError:
+              mismatches.append(f"MISSING: {duo_path}")
+      if mismatches:
+          print("ERROR: flows/ and .gitlab/duo/ are out of sync:")
+          for m in mismatches:
+              print(" ", m)
+          sys.exit(1)
+      print("OK: flows/ and .gitlab/duo/ are in sync")
+      PYEOF
+
+test_standup_logic:
+  stage: test
+  image: python:3.10
+  script:
+    - python3 -m unittest discover -s tests -v
