@@ -276,6 +276,7 @@ definition:
         user: |
           {{goal}}
         placeholder: history
+      unit_primitives: []
       params:
         timeout: 180
 
