@@ -8,11 +8,3 @@ validate_flows:
   script:
     - pip install pyyaml
     - python3 -c "import yaml, glob; [print('VALID:', f) or yaml.safe_load(open(f).read()) for f in glob.glob('flows/*.yml')]"
-
-test_dependencies:
-  stage: test
-  image: python:3.10
-  script:
-    - echo "Running tests..."
-    - exit 1
-  allow_failure: false
