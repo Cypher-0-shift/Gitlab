@@ -53,10 +53,10 @@
         }
       },
       "latest_sync": {
-        "git_tag": "v1.0.0",
-        "catalog_version": "1.0.0",
-        "synced_at": "2026-03-21T19:04:03.868Z",
-        "definition_hash": "2668b899f55567ff"
+        "git_tag": "v1.0.5",
+        "catalog_version": "1.1.0",
+        "synced_at": "2026-03-22T18:25:38.819Z",
+        "definition_hash": "63971c71ad5864c7"
       }
     },
     "flows/estimation_flow.yml": {
