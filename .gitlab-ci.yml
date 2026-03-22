@@ -16,3 +16,9 @@ test_dependencies:
     - pip install -r requirements.txt
     - python3 -m pytest tests/ -v
   allow_failure: false
+
+test_intentional:
+  stage: test
+  script:
+    - echo "Running dependency check..."
+    - python3 -c "import nonexistent_package"
