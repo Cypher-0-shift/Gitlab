@@ -2,41 +2,19 @@ stages:
   - validate
   - test
 
-# ✅ Stage 1: Validate YAML configs (your flows/agents)
 validate_flows:
   stage: validate
   image: python:3.10
   script:
-    - echo "Validating YAML files..."
     - pip install pyyaml
-    - python3 -c "
-import yaml, glob
-files = glob.glob('flows/*.yaml') + glob.glob('flows/*.yml')
-for f in files:
-    print('VALID:', f)
-    yaml.safe_load(open(f))
-"
+    - python3 -c "import yaml, glob; [print('VALID:', f) or yaml.safe_load(open(f).read()) for f in glob.glob('flows/*.yml')]"
 
-# ✅ Stage 2: Run normal tests
 test_dependencies:
   stage: test
   image: python:3.10
   script:
-    - echo 'Installing dependencies...'
+    - echo "Installing dependencies..."
     - pip install -r requirements.txt
-    - echo 'Running pytest...'
-    - python3 -m pytest tests/ -v
+    - echo "Running dependency validation..."
+    - python3 -c "import anthropic, fastmcp, nonexistent_package"
   allow_failure: false
-
-# 💣 Stage 3: Intentional failure (FOR SECURITY AGENT TESTING)
-test_intentional_failure:
-  stage: test
-  image: python:3.10
-  script:
-    - echo "Triggering intentional failure for testing security agent..."
-    
-    # Fake dependency issue
-    - python3 -c "import nonexistent_package"
-    
-    # GUARANTEED failure
-    - exit 1
