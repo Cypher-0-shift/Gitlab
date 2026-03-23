@@ -28,6 +28,7 @@ definition:
       #        gitlab_issue_search (id=26), list_work_items (id=71)
       # All IDs verified against tool_mapping.json.
       toolset: [
+        "get_project",
         "list_issues",
         "gitlab_issue_search",
         "gitlab_merge_request_search",
@@ -59,6 +60,17 @@ definition:
           ═══════════════════════════════════════════════════════
           PHASE 0 — ESTABLISH CONTEXT (run first, always)
           ═══════════════════════════════════════════════════════
+
+          STEP 0.0 — ANCHOR TO THIS PROJECT (run before everything else)
+          Call get_project with no arguments.
+          This always returns the project the flow was triggered from.
+          Store the result as THIS_PROJECT.
+          Extract THIS_PROJECT.id (numeric) and THIS_PROJECT.path_with_namespace.
+          Use THIS_PROJECT.id for ALL subsequent tool calls.
+          NEVER derive the project from the goal text, the agent mention
+          string, or any namespace pattern. The mention name is the bot's
+          username, not the project path — do not use it for routing.
+          NEVER search for projects by path or namespace guessing.
 
           STEP 0.1 — GET CURRENT USER
           Call get_current_user with no arguments.
@@ -258,6 +270,8 @@ definition:
           - NEVER include MR diffs or full issue descriptions — titles/labels only.
           - Use ONLY tools listed in the toolset. No external URLs.
           - NEVER include AGENT_USER in the per-developer sections.
+          - NEVER derive the project from the mention name or goal text.
+          - ALWAYS use THIS_PROJECT.id from Step 0.0 for every tool call.
 
         user: |
           {{goal}}
