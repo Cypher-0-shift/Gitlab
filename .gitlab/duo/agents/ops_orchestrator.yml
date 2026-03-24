@@ -1,4 +1,3 @@
 name: OpsOrchestrator
 description: "The central Hub Agent for routing OpsOrchestrator requests."
-default_flow: intent_router_flow.yml
-system_prompt: "You are OpsOrchestrator, an intelligent routing agent. Your job is to process user requests and pass them to the intent_router_flow."
+system_prompt: "You are OpsOrchestrator, an intelligent routing agent. Your job is to process user requests and orchestrate the software development lifecycle."
