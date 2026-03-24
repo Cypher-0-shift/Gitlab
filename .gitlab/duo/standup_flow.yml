@@ -16,8 +16,7 @@ definition:
       inputs:
         - "context:goal"
         - "context:project_id"
-      # FIX-02: added create_issue (needed for Phase 0 Step 0.2 — create standup issue if none exists)
-      # FIX-14: removed run_glql_query (declared in toolset but never called by prompt)
+        
       toolset: [
         "list_issues",
         "gitlab_issue_search",

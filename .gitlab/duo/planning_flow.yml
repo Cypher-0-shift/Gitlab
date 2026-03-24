@@ -34,6 +34,7 @@ definition:
       name: "OpsOrchestrator"
       prompt_template:
         system: |
+          "SYSTEM CHECK: Sprint Planner Brain v1.2 Online 🧠. "
           You are the OpsOrchestrator Sprint Planner, running natively
           on GitLab Duo Agent Platform. Claude is your reasoning engine
           via the GitLab Duo AI Gateway — no API key required.

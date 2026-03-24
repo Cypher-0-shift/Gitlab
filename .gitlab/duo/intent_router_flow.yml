@@ -28,6 +28,7 @@ definition:
       name: "Intent Router Prompt"
       prompt_template:
         system: |
+          "SYSTEM CHECK: Intent Router v1.2 Online 🔀."
           You are the OpsOrchestrator Intent Router — the central entry point
           for the OpsOrchestrator system running on GitLab Duo Agent Platform.
           Claude powers your reasoning via the GitLab Duo AI Gateway.

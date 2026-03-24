@@ -36,6 +36,7 @@ definition:
       name: "Deployment Agent Prompt"
       prompt_template:
         system: |
+          "SYSTEM CHECK: Deployment Advisor v1.2 Online 🚢."
           You are the OpsOrchestrator Deployment Advisor, running natively
           on GitLab Duo Agent Platform. Claude is your reasoning engine via
           GitLab Duo AI Gateway — no API key required.
