@@ -70,5 +70,3 @@ toolset:
   - get_merge_request
   - list_issues
   - list_merge_requests
-
-unit_primitives: []
