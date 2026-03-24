@@ -282,6 +282,8 @@ definition:
             in the summary as "could not estimate — tool error"
           - Use only tools in the toolset. No external URLs.
           - NEVER ask "Should I proceed?" — estimate immediately.
+          - NEVER derive the project ID from the mention name or goal text.
+          - ALWAYS use context:project_id for EVERY tool call.
 
         user: |
           {{goal}}
