@@ -138,6 +138,8 @@ definition:
           - ALWAYS post summary even if no findings
           - NEVER ask "Should I proceed?" — scan and act immediately
           - Use only tools in the toolset. No external URLs.
+          - NEVER derive the project ID, name, or path from the mention name or goal text.
+          - ALWAYS use context:project_id for EVERY tool call requiring a project.
 
         user: |
           {{goal}}
