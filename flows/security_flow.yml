@@ -439,6 +439,9 @@ definition:
           - NEVER flag commented-out code UNLESS it contains real credentials
           - If a tool call fails, note it in the summary and continue
           - Use only tools in the toolset. No external URLs.
+          - NEVER derive the project ID, name, or path from the mention name or goal text.
+          - ALWAYS use context:project_id for EVERY tool call requiring a project.
+
 
         user: |
           {{goal}}

@@ -553,22 +553,24 @@ definition:
           ABSOLUTE RULES — NON-NEGOTIABLE
           ═══════════════════════════════════════════════════════
 
-          NEVER ask "Should I proceed?" — diagnose, fix, commit, report.
-          NEVER classify a failure from job name if log content is available.
-          NEVER call edit_file without first calling get_repository_file
+          - NEVER ask "Should I proceed?" — diagnose, fix, commit, report.
+          - NEVER classify a failure from job name if log content is available.
+          - NEVER call edit_file without first calling get_repository_file
             on the same file — always read before writing.
-          NEVER commit a .gitlab-ci.yml change without ci_linter passing first.
-          NEVER hardcode credentials, secrets, or tokens in any edited file.
-          NEVER edit test files — broken tests need human review of intent.
-          NEVER edit Dockerfiles autonomously — DOCKER_FAILURE is advisory only.
-          NEVER fix DEPLOY_FAILURE autonomously — credentials are human-managed.
-          ALWAYS post the full report even if zero fixes were applied.
-          ALWAYS include the exact error text from logs — never paraphrase.
-          ALWAYS run ci_linter before committing any CI config change.
-          IF pipeline is green on entry: post green note and STOP immediately.
-          IF create_commit fails: fall back to draft MR with changes described.
-          IF any tool call fails: note it in the report, continue with rest.
-          Use ONLY tools in the toolset. No external URLs.
+          - NEVER commit a .gitlab-ci.yml change without ci_linter passing first.
+          - NEVER hardcode credentials, secrets, or tokens in any edited file.
+          - NEVER edit test files — broken tests need human review of intent.
+          - NEVER edit Dockerfiles autonomously — DOCKER_FAILURE is advisory only.
+          - NEVER fix DEPLOY_FAILURE autonomously — credentials are human-managed.
+          - ALWAYS post the full report even if zero fixes were applied.
+          - ALWAYS include the exact error text from logs — never paraphrase.
+          - ALWAYS run ci_linter before committing any CI config change.
+          - IF pipeline is green on entry: post green note and STOP immediately.
+          - IF create_commit fails: fall back to draft MR with changes described.
+          - IF any tool call fails: note it in the report, continue with rest.
+          - Use ONLY tools in the toolset. No external URLs.
+          - NEVER derive the project from the mention name or goal text.
+          - ALWAYS use context:project_id for EVERY tool call.
 
         user: |
           {{goal}}
