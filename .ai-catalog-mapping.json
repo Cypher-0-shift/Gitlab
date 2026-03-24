@@ -14,10 +14,10 @@
         }
       },
       "latest_sync": {
-        "git_tag": "v1.1.2",
-        "catalog_version": "1.1.0",
-        "synced_at": "2026-03-24T13:26:40.896Z",
-        "definition_hash": "e78719502addf0e7"
+        "git_tag": "v1.1.3",
+        "catalog_version": "1.2.0",
+        "synced_at": "2026-03-24T15:50:13.350Z",
+        "definition_hash": "47dfdd66d4e7dab8"
       }
     }
   },
@@ -35,10 +35,10 @@
         }
       },
       "latest_sync": {
-        "git_tag": "v1.0.9",
-        "catalog_version": "1.2.0",
-        "synced_at": "2026-03-24T11:04:31.663Z",
-        "definition_hash": "3fdf5e427f20cda8"
+        "git_tag": "v1.1.3",
+        "catalog_version": "1.3.0",
+        "synced_at": "2026-03-24T15:50:14.228Z",
+        "definition_hash": "229c3bb6a1e5e327"
       }
     },
     "flows/deployment_flow.yml": {
@@ -54,10 +54,10 @@
         }
       },
       "latest_sync": {
-        "git_tag": "v1.1.2",
-        "catalog_version": "1.3.0",
-        "synced_at": "2026-03-24T13:26:41.764Z",
-        "definition_hash": "1d1c8db1955bf7ce"
+        "git_tag": "v1.1.3",
+        "catalog_version": "1.4.0",
+        "synced_at": "2026-03-24T15:50:15.770Z",
+        "definition_hash": "737f96ab461b2f4f"
       }
     },
     "flows/devops_flow.yml": {
@@ -73,10 +73,10 @@
         }
       },
       "latest_sync": {
-        "git_tag": "v1.0.9",
-        "catalog_version": "1.3.0",
-        "synced_at": "2026-03-24T11:04:33.922Z",
-        "definition_hash": "987f29dfbaec6bd6"
+        "git_tag": "v1.1.3",
+        "catalog_version": "1.4.0",
+        "synced_at": "2026-03-24T15:50:16.522Z",
+        "definition_hash": "14fad927548e79c8"
       }
     },
     "flows/estimation_flow.yml": {
@@ -92,10 +92,10 @@
         }
       },
       "latest_sync": {
-        "git_tag": "v1.0.9",
-        "catalog_version": "1.2.0",
-        "synced_at": "2026-03-24T11:04:34.649Z",
-        "definition_hash": "757fe0b399bcb3f7"
+        "git_tag": "v1.1.3",
+        "catalog_version": "1.3.0",
+        "synced_at": "2026-03-24T15:50:17.198Z",
+        "definition_hash": "6893365a17f1c6c3"
       }
     },
     "flows/intent_router_flow.yml": {
@@ -111,10 +111,10 @@
         }
       },
       "latest_sync": {
-        "git_tag": "v1.0.8",
-        "catalog_version": "1.1.0",
-        "synced_at": "2026-03-24T10:17:30.467Z",
-        "definition_hash": "b70dfaa8136c4baf"
+        "git_tag": "v1.1.3",
+        "catalog_version": "1.2.0",
+        "synced_at": "2026-03-24T15:50:18.148Z",
+        "definition_hash": "19356d88bc9a4cad"
       }
     },
     "flows/planning_flow.yml": {
@@ -130,10 +130,10 @@
         }
       },
       "latest_sync": {
-        "git_tag": "v1.0.9",
-        "catalog_version": "1.3.0",
-        "synced_at": "2026-03-24T11:04:35.444Z",
-        "definition_hash": "d1147ff4bada8a21"
+        "git_tag": "v1.1.3",
+        "catalog_version": "1.4.0",
+        "synced_at": "2026-03-24T15:50:19.187Z",
+        "definition_hash": "9e13551de4978d63"
       }
     },
     "flows/security_flow.yml": {
@@ -149,10 +149,10 @@
         }
       },
       "latest_sync": {
-        "git_tag": "v1.0.9",
-        "catalog_version": "1.2.0",
-        "synced_at": "2026-03-24T11:04:36.388Z",
-        "definition_hash": "fdfe8813897a713d"
+        "git_tag": "v1.1.3",
+        "catalog_version": "1.3.0",
+        "synced_at": "2026-03-24T15:50:20.157Z",
+        "definition_hash": "4bffb92201c6a223"
       }
     },
     "flows/standup_flow.yml": {
@@ -168,10 +168,10 @@
         }
       },
       "latest_sync": {
-        "git_tag": "v1.0.8",
+        "git_tag": "v1.1.3",
         "catalog_version": "1.1.0",
-        "synced_at": "2026-03-24T10:17:33.193Z",
-        "definition_hash": "b4734178765bea0e"
+        "synced_at": "2026-03-24T15:50:21.060Z",
+        "definition_hash": "6a6755e44090937d"
       }
     },
     "flows/dependency_flow.yml": {
@@ -187,10 +187,10 @@
         }
       },
       "latest_sync": {
-        "git_tag": "v1.0.9",
-        "catalog_version": "1.1.0",
-        "synced_at": "2026-03-24T11:04:32.575Z",
-        "definition_hash": "1d59987ab8315fed"
+        "git_tag": "v1.1.3",
+        "catalog_version": "1.2.0",
+        "synced_at": "2026-03-24T15:50:14.993Z",
+        "definition_hash": "2df18518bfa3723d"
       }
     }
   }
