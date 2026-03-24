@@ -8,10 +8,6 @@ definition:
   version: v1
   environment: ambient
 
-  triggers:
-    - type: scheduled
-      cron: "0 9 * * 1-5"
-      goal: "Generate the daily standup digest for the team."
 
   components:
     - name: "standup_agent"

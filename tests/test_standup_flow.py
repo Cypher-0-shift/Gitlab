@@ -362,15 +362,7 @@ class TestFlowYamlStructure(unittest.TestCase):
         self.comp = self.defn["components"][0]
         self.prompt = self.defn["prompts"][0]
 
-    def test_has_schedule_trigger(self):
-        triggers = self.defn.get("triggers", [])
-        types = [t["type"] for t in triggers]
-        self.assertIn("scheduled", types)
-
-    def test_schedule_cron_is_9am_weekdays(self):
-        trigger = next(t for t in self.defn["triggers"] if t["type"] == "scheduled")
-        self.assertEqual(trigger["cron"], "0 9 * * 1-5")
-
+    
     def test_toolset_has_mr_search(self):
         self.assertIn("gitlab_merge_request_search", self.comp["toolset"])
 
