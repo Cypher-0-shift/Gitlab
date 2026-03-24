@@ -5,6 +5,24 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.2.0] — 2026-03-24
+
+### Security
+- `requirements.txt`: bumped `requests==2.20.0` → `requests==2.31.0` (CVE-2023-32681 fix)
+- `mcp/mcp_config.json`: removed real GCP project number; replaced with `YOUR_CLOUD_RUN_URL` placeholder
+
+### Fixed
+- `mcp/app.py` webhook handler: added HTTP response status check after GitLab API POST — previously a 404 (wrong DEVOPS_TRIAGE_ISSUE_IID) would be silently swallowed; now raises HTTP 502 with diagnostic detail
+- `flows/deployment_flow.yml` toolset: removed `list_repository_tree` — it was listed in the toolset but the prompt explicitly told the agent not to use it, causing a contradiction; the prompt already correctly uses `list_merge_request_diffs` for migration detection
+- `flows/deployment_flow.yml` prompt: removed stale comment claiming `list_repository_tree is not available via this toolset` (redundant once the tool was removed)
+- `agents/ops_orchestrator.yml` + `.gitlab/duo/agents/ops_orchestrator.yml`: expanded one-sentence system prompt stub into a full routing prompt with routing table, execution protocol, and hard rules — the stub would have produced a near-useless hub agent if GitLab read the .yml for the agent definition
+
+### Changed
+- `README.md`: replaced silent Rick Roll placeholder video URL with an obvious `YOUR_VIDEO_ID` placeholder and clear pre-submission instructions
+- `.gitlab/ai_config.yaml`: added detailed header block explaining this is design-time configuration, not runtime-read — clarifies the intentional architecture pattern and documents how to update values before re-deploying
+
+---
+
 ## [1.1.0] — 2026-03-24
 
 ### Added

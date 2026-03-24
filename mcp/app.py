@@ -12,7 +12,7 @@ mcp = FastMCP("ops-orchestrator-gcp")
 # FIX-12: Consume MCP_ENV — set by deploy_to_gcp.sh as "production"
 MCP_ENV = os.environ.get("MCP_ENV", "development")
 
-# FIX-17: Warn on startup if required env vars are missing in production
+# Warn on startup if required env vars are missing in production
 if MCP_ENV == "production":
     missing = [v for v in ["GITLAB_PAT", "GITLAB_WEBHOOK_TOKEN"] if not os.environ.get(v)]
     if missing:
@@ -36,7 +36,8 @@ async def verify_token(api_key: str = Security(api_key_header)):
 @mcp.tool()
 def health_check() -> str:
     """Returns the health status of the OpsOrchestrator MCP Server."""
-    return f"OpsOrchestrator MCP Server is healthy. Environment: {MCP_ENV}. Ready."
+    env_label = "production" if MCP_ENV == "production" else "development"
+    return f"OpsOrchestrator MCP Server is healthy. Environment: {env_label}. Ready."
 
 
 @mcp.tool()
@@ -73,14 +74,29 @@ async def gitlab_webhook(request: Request):
 
     pat = os.environ.get("GITLAB_PAT")
     if pat and project_id:
+        triage_iid = os.environ.get("DEVOPS_TRIAGE_ISSUE_IID", "1")
         async with httpx.AsyncClient() as client:
-            triage_iid = os.environ.get("DEVOPS_TRIAGE_ISSUE_IID", "1")
-            await client.post(
+            # FIX-N4: Check response status — a 404 means the triage issue IID is wrong
+            response = await client.post(
                 f"https://gitlab.com/api/v4/projects/{project_id}/issues/{triage_iid}/notes",
                 headers={"PRIVATE-TOKEN": pat},
                 json={"body": f"@ops-orchestrator-devops Pipeline {pipeline_id} failed. Please diagnose."},
                 timeout=10.0,
             )
+            if response.status_code not in (200, 201):
+                error_detail = response.text[:200]
+                print(json.dumps({
+                    "severity": "ERROR",
+                    "message": f"GitLab API returned {response.status_code} posting to issue #{triage_iid}",
+                    "detail": error_detail,
+                    "project_id": project_id,
+                    "triage_iid": triage_iid,
+                }))
+                raise HTTPException(
+                    status_code=status.HTTP_502_BAD_GATEWAY,
+                    detail=f"GitLab API error {response.status_code} posting to issue #{triage_iid}. "
+                           f"Check DEVOPS_TRIAGE_ISSUE_IID env var. Detail: {error_detail}"
+                )
 
     return {"status": "triggered", "pipeline_id": pipeline_id}
 

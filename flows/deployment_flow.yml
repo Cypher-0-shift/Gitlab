@@ -23,8 +23,7 @@ definition:
         "update_merge_request",
         "get_pipeline_errors",
         "get_pipeline_failing_jobs",
-        "get_merge_request_conflicts",
-        "list_repository_tree"
+        "get_merge_request_conflicts"
       ]
         
       ui_log_events:
@@ -81,7 +80,6 @@ definition:
           This is your open_critical_count.
 
           STEP 1.5 — MIGRATION CHECK
-          list_repository_tree is not available via this toolset.
           Infer migration risk from the diff paths returned by list_merge_request_diffs.
           Check the new_path of each changed file for these patterns:
             - "migrations/" or "migration" in path
