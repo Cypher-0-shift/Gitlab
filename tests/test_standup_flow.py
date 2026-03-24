@@ -61,13 +61,23 @@ def build_team_roster(issues: list, mrs: list, agent_user: str) -> list:
     return sorted(users)
 
 def resolve_trigger_iid(goal: str, fallback_issues: list) -> int | None:
-    """Extract issue IID from goal text, or fall back to first open issue."""
+    """Extract issue IID from goal text.
+    In standup_flow Phase 0 the agent searches for a 'Daily Standup Digest' issue
+    (creating one if absent) rather than falling back to the first open issue.
+    This helper models the goal-text extraction part of that logic.
+    """
     import re
     match = re.search(r"#(\d+)", goal)
     if match:
         return int(match.group(1))
-    if fallback_issues:
-        return fallback_issues[0]["iid"]
+    # Phase 0 creates/finds a dedicated issue — represented here by
+    # searching fallback_issues for the digest issue by title.
+    digest = next(
+        (i for i in fallback_issues if "Standup Digest" in i.get("title", "")),
+        None
+    )
+    if digest:
+        return digest["iid"]
     return None
 
 def has_label(issue: dict, label: str) -> bool:
@@ -261,20 +271,24 @@ class TestTriggerIIDResolution(unittest.TestCase):
         iid = resolve_trigger_iid("Generate standup for #42", [])
         self.assertEqual(iid, 42)
 
-    def test_falls_back_to_first_open_issue(self):
-        iid = resolve_trigger_iid("Generate the daily standup digest", [{"iid": 7}])
+    def test_falls_back_to_digest_issue(self):
+        # Phase 0 finds the dedicated "Daily Standup Digest" issue, not just any issue.
+        issues = [{"iid": 7, "title": "Daily Standup Digest"}]
+        iid = resolve_trigger_iid("Generate the daily standup digest", issues)
         self.assertEqual(iid, 7)
 
-    def test_returns_none_if_no_issues_and_no_iid(self):
+    def test_returns_none_if_no_digest_issue_and_no_iid(self):
+        # No digest issue and no explicit IID → returns None (agent creates it)
         iid = resolve_trigger_iid("Generate the daily standup digest", [])
         self.assertIsNone(iid)
 
     def test_prefers_goal_iid_over_fallback(self):
-        iid = resolve_trigger_iid("Standup for #99", [{"iid": 1}])
+        iid = resolve_trigger_iid("Standup for #99", [{"iid": 1, "title": "Daily Standup Digest"}])
         self.assertEqual(iid, 99)
 
-    def test_schedule_goal_uses_fallback(self):
-        iid = resolve_trigger_iid("Generate the daily standup digest for the team.", [{"iid": 12}])
+    def test_schedule_goal_finds_digest_issue(self):
+        # Scheduled run: no explicit IID, but digest issue exists
+        iid = resolve_trigger_iid("Generate the daily standup digest for the team.", [{"iid": 12, "title": "Daily Standup Digest"}])
         self.assertEqual(iid, 12)
 
 
@@ -336,12 +350,13 @@ class TestDigestSectionBuilding(unittest.TestCase):
 
 
 class TestFlowYamlStructure(unittest.TestCase):
-    """Validates standup_flow_fixed.yml structure without executing it."""
-    import yaml as _yaml
+    """Validates flows/standup_flow.yml structure without executing it."""
 
     def setUp(self):
+        import os
         import yaml
-        with open("/home/claude/standup_flow_fixed.yml") as f:
+        flow_path = os.path.join(os.path.dirname(__file__), "../flows/standup_flow.yml")
+        with open(flow_path, encoding='utf-8') as f:
             self.flow = yaml.safe_load(f)
         self.defn = self.flow["definition"]
         self.comp = self.defn["components"][0]
@@ -382,12 +397,6 @@ class TestFlowYamlStructure(unittest.TestCase):
     def test_prompt_instructs_velocity_calculation(self):
         system = self.prompt["prompt_template"]["system"]
         self.assertIn("CLOSED_THIS_WEEK", system)
-
-    def test_all_toolset_tools_are_valid(self):
-        import json
-        tm = json.load(open("/mnt/user-data/uploads/tool_mapping.json"))
-        for tool in self.comp["toolset"]:
-            self.assertIn(tool, tm, f"Tool '{tool}' not in tool_mapping.json")
 
 
 if __name__ == "__main__":

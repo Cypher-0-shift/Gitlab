@@ -1,11 +1,11 @@
 # OpsOrchestrator — GitLab-Native AI SDLC Orchestration
 
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![GitLab Duo](https://img.shields.io/badge/GitLab%20Duo-Agent%20Platform-FC6D26)](https://about.gitlab.com/blog/gitlab-duo-agent-platform-complete-getting-started-guide/)
 [![Anthropic](https://img.shields.io/badge/Powered%20by-Claude%20via%20GitLab%20Duo-6B4FBB)](https://www.anthropic.com)
 
-> **Demo video:** [Watch the 3-minute demo on YouTube](https://www.youtube.com/watch?v=YOUR_VIDEO_ID) <b><!-- MUST REPLACE VIDEO ID --></b>
-> ⚠️ Replace YOUR_VIDEO_ID with your real video ID before submitting.
+> **Demo video:** [Watch the 3-minute demo on YouTube](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+> <!-- ⚠️ TODO: Replace dQw4w9WgXcQ above with your actual unlisted YouTube video ID before Devpost submission -->
 
 Converts GitLab issues and epics into complete sprint plans, security
 reviews, compliance gates, and deployment readiness assessments —
@@ -119,7 +119,8 @@ Repeat for security, compliance, estimation, dependency, deployment flows.
 ```
 GitLab → Automate → Agents → New agent
 Name: OpsOrchestrator | Visibility: Public
-Paste: agents/planning_agent.md system prompt
+Paste: the system_prompt field from agents/agent.yaml
+(or follow the guide in agents/ops_orchestrator.md)
 Enable all listed tools.
 ```
 
@@ -128,6 +129,53 @@ Enable all listed tools.
 @ops-orchestrator plan this issue
 ```
 Mention in any issue comment. Agent runs all steps immediately.
+
+### Step 5 — Configure GCP MCP Server (Optional — Enterprise Audit Features)
+
+This step enables the compliance audit vault and CI/CD webhook auto-trigger.
+Core agents work without it.
+
+**5a. Deploy the MCP server to Cloud Run:**
+```bash
+cd mcp
+export GITLAB_PAT="glpat-xxxx"          # GitLab PAT with api scope
+export GITLAB_WEBHOOK_TOKEN="my-secret" # any secret string
+export DEVOPS_TRIAGE_ISSUE_IID="1"      # issue IID for CI/CD webhook comments
+gcloud run deploy ops-orchestrator-gcp \
+    --source . \
+    --region us-central1 \
+    --no-allow-unauthenticated \
+    --port 8080 \
+    --set-env-vars="MCP_ENV=production,GITLAB_PAT=${GITLAB_PAT},GITLAB_WEBHOOK_TOKEN=${GITLAB_WEBHOOK_TOKEN},DEVOPS_TRIAGE_ISSUE_IID=${DEVOPS_TRIAGE_ISSUE_IID}"
+```
+
+**5b. Update `.gitlab/duo/mcp.json`** with your Cloud Run URL:
+```json
+{
+  "mcpServers": {
+    "ops-orchestrator-gcp": {
+      "type": "sse",
+      "url": "https://YOUR-SERVICE-URL.run.app/sse",
+      "description": "OpsOrchestrator GCP MCP Server — audit vault + CI/CD webhook"
+    }
+  }
+}
+```
+
+**5c. Register GitLab Webhook:**
+- GitLab → Project → Settings → Webhooks
+- URL: `https://YOUR-SERVICE-URL.run.app/webhook/gitlab`
+- Secret Token: your `GITLAB_WEBHOOK_TOKEN` value
+- Trigger: ☑ Pipeline events
+- Click **Add webhook**
+
+**5d. Grant IAM Invoker access** to GitLab Duo's service account:
+```bash
+gcloud run services add-iam-policy-binding ops-orchestrator-gcp \
+    --region us-central1 \
+    --member="serviceAccount:gitlab-duo@YOUR-PROJECT.iam.gserviceaccount.com" \
+    --role="roles/run.invoker"
+```
 
 ---
 
@@ -147,9 +195,11 @@ Mention in any issue comment. Agent runs all steps immediately.
 ## Running Tests
 
 ```bash
-python3 -m unittest discover -s tests -v
+pip install pytest pyyaml
+python -m pytest tests/ -v
 ```
-Pure Python stdlib. No dependencies required.
+
+**183 tests** across 3 test files covering all agent logic (planning, deployment, standup, security, compliance, estimation, CI/CD).
 
 ---
 

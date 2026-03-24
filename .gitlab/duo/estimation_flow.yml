@@ -48,7 +48,10 @@ definition:
           
           STEP 1.2 — FILTER TO UNWEIGHTED
           From the list, filter to issues where:
-            weight = null OR weight = 0
+            weight is exactly null
+          CRITICAL: If an issue has weight = 0, SKIP IT.
+          A value of 0 is an intentional human estimate meaning zero effort.
+          Do NOT overwrite it. Only estimate issues where weight is null.
 
           STEP 1.3 — EARLY EXIT CHECK
           If NO unweighted issues found:
@@ -285,7 +288,7 @@ definition:
         placeholder: history
       unit_primitives: []
       params:
-        timeout: 180
+        timeout: 300
 
   routers:
     - from: "estimation_agent"

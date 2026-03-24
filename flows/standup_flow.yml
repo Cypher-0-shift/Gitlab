@@ -8,9 +8,6 @@ definition:
   version: v1
   environment: ambient
 
-  # ─── TRIGGER BLOCK (was missing — this is what makes it autonomous) ─────────
-  # With this block, GitLab fires the flow at 9AM UTC Mon-Fri automatically.
-  # Without it the flow is chatbot-only (mention-triggered), not agent-style.
   triggers:
     - type: scheduled
       cron: "0 9 * * 1-5"
@@ -23,18 +20,16 @@ definition:
       inputs:
         - "context:goal"
         - "context:project_id"
-      # FIX: expanded from 4 tools to 8.
-      # Added: gitlab_merge_request_search (id=35), get_merge_request (id=20),
-      #        gitlab_issue_search (id=26), list_work_items (id=71)
-      # All IDs verified against tool_mapping.json.
+      # FIX-02: added create_issue (needed for Phase 0 Step 0.2 — create standup issue if none exists)
+      # FIX-14: removed run_glql_query (declared in toolset but never called by prompt)
       toolset: [
         "list_issues",
         "gitlab_issue_search",
         "gitlab_merge_request_search",
         "get_merge_request",
+        "create_issue",
         "create_issue_note",
         "get_current_user",
-        "run_glql_query",
         "list_work_items"
       ]
 
@@ -68,9 +63,20 @@ definition:
 
           STEP 0.2 — YOUR POSTING TARGET (TRIGGER_IID)
           Scan context:goal for "Issue IID: N" or "#N" — use that number.
-          If no number found, call list_issues(state=opened, per_page=1)
-          and use the first result's iid.
-          Store as TRIGGER_IID. Post the digest here in Phase 4.
+          If no number found:
+            1. Use `gitlab_issue_search` to search for issues with title
+               exactly matching "Daily Standup Digest" and state=opened.
+            2. If an open issue with this exact title exists:
+                 Use its iid as TRIGGER_IID.
+            3. If NO such issue exists:
+                 Call `create_issue` with:
+                   title: "Daily Standup Digest"
+                   description: "Pinned issue for daily standup digest posts by OpsOrchestrator."
+                   labels: ["ops-orchestrator-standup"]
+                 Use the newly created issue's iid as TRIGGER_IID.
+          CRITICAL: NEVER fall back to a random open issue. Always resolve
+          to the "Daily Standup Digest" issue specifically.
+          Store result as TRIGGER_IID. Post the digest here in Phase 4.
 
           ═══════════════════════════════════════════════════════
           PHASE 1 — LOAD ALL PROJECT STATE

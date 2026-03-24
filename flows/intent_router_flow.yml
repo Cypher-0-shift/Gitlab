@@ -85,11 +85,11 @@ definition:
             Example: "Find dependencies across issues", "What is blocking what"
             Command: @ops-orchestrator-deps (in an issue comment)
 
-          REVIEW
-            Keywords: code review, review MR, review code, check code quality,
-              style guide, best practices, suggest improvements
-            Example: "Review this MR", "Check code quality"
-            Command: @ops-orchestrator-review (in an MR comment)
+          DEVOPS
+            Keywords: pipeline failed, CI broken, fix CI, diagnose build, job failing,
+              lint error, test failure, deployment error, fix pipeline, CI/CD
+            Example: "Fix the failing pipeline", "Diagnose the CI build failure"
+            Command: @ops-orchestrator-devops (in an MR or issue comment)
 
           HELP
             Keywords: help, how do I, what can you do, commands, list agents,
@@ -169,6 +169,7 @@ definition:
           | `@ops-orchestrator-estimate` | Issue comment | Fibonacci story points for all unweighted issues |
           | `@ops-orchestrator-standup` | Any comment | Daily digest per developer + team health |
           | `@ops-orchestrator-deps` | Issue comment | Maps blocker/blocked relationships |
+          | `@ops-orchestrator-devops` | MR or issue comment | Diagnoses pipeline failures + auto-fixes lint/deps/syntax |
 
           *Powered by OpsOrchestrator on GitLab Duo · Claude via Anthropic*
 

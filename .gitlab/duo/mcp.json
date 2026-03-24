@@ -1,9 +1,9 @@
 {
-    "mcpServers": {
-      "ops-orchestrator-gcp": {
-        "type": "sse",
-        "url": "https://ops-orchestrator-mcp-451049071112.us-central1.run.app/sse",
-        "description": "OpsOrchestrator GCP MCP Server — audit vault + CI/CD webhook"
-      }
+  "mcpServers": {
+    "ops-orchestrator-gcp": {
+      "type": "sse",
+      "url": "https://ops-orchestrator-gcp-451049071112.us-central1.run.app/sse",
+      "description": "OpsOrchestrator GCP MCP Server — audit vault + CI/CD webhook"
     }
   }
+}

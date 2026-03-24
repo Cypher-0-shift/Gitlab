@@ -45,7 +45,7 @@ class TestSecuritySeverityClassification(unittest.TestCase):
     def classify(self, issue): return "CRITICAL" if "hardcoded secrets" in issue else "LOW"
     def test_1(self): self.assertEqual(self.classify("has hardcoded secrets"), "CRITICAL")
     def test_2(self): self.assertEqual(self.classify("typo"), "LOW")
-    def test_3(self): self.assertEqual(self.classify("no hardcoded secrets"), "CRITICAL")
+    def test_3(self): self.assertEqual(self.classify("clean code without vulnerabilities"), "LOW")
     def test_4(self): self.assertNotEqual(self.classify("typo"), "CRITICAL")
     def test_5(self): self.assertTrue(self.classify("hardcoded secrets inside") == "CRITICAL")
     def test_6(self): self.assertFalse(self.classify("lint error") == "CRITICAL")

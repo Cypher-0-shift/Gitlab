@@ -1,0 +1,11 @@
+tests/
+docs/
+flows/
+agents/
+.gitlab/
+**/*.md
+.git/
+**/__pycache__/
+**/*.pyc
+.pytest_cache/
+*.egg-info/

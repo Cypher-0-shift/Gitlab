@@ -6,35 +6,61 @@ validate_flows:
   stage: validate
   image: python:3.10
   script:
-    # 1. Validate every flow file in flows/ is valid YAML
-    - pip install pyyaml
-    - python3 -c "import yaml, glob; [print('VALID:', f) or yaml.safe_load(open(f).read()) for f in glob.glob('flows/*.yml')]"
-    # 2. Ensure flows/ and .gitlab/duo/ are in sync (no silent drift)
+    # Step 1: Validate all flow YAML files are well-formed
+    - pip install --cache-dir .pip-cache pyyaml
+    - |
+      python3 -c "
+      import yaml, glob, sys
+      errors = []
+      for f in sorted(glob.glob('flows/*.yml')):
+          try:
+              yaml.safe_load(open(f, encoding='utf-8').read())
+              print(f'VALID: {f}')
+          except yaml.YAMLError as e:
+              errors.append(f'INVALID: {f} — {e}')
+              print(f'INVALID: {f} — {e}')
+      if errors:
+          sys.exit(1)
+      "
+
+    # Step 2: Bidirectional sync check — flows/ ↔ .gitlab/duo/
     - |
       python3 - << 'PYEOF'
       import glob, sys
-      flows = sorted(glob.glob("flows/*.yml"))
       mismatches = []
-      for f in flows:
+
+      # Forward: every flows/*.yml must be in .gitlab/duo/
+      for f in sorted(glob.glob("flows/*.yml")):
           name = f.split("/")[-1]
           duo_path = f".gitlab/duo/{name}"
           try:
-              a = open(f).read()
-              b = open(duo_path).read()
+              a = open(f, encoding='utf-8').read()
+              b = open(duo_path, encoding='utf-8').read()
               if a != b:
-                  mismatches.append(f"{f} != {duo_path}")
+                  mismatches.append(f"CONTENT MISMATCH: {f} != {duo_path}")
           except FileNotFoundError:
-              mismatches.append(f"MISSING: {duo_path}")
+              mismatches.append(f"MISSING in .gitlab/duo/: {duo_path}")
+
+      # Reverse: every .gitlab/duo/*.yml must be in flows/
+      for f in sorted(glob.glob(".gitlab/duo/*.yml")):
+          name = f.split("/")[-1]
+          if not glob.glob(f"flows/{name}"):
+              mismatches.append(f"MISSING in flows/: flows/{name}")
+
       if mismatches:
-          print("ERROR: flows/ and .gitlab/duo/ are out of sync:")
+          print("ERROR: flows/ and .gitlab/duo/ out of sync:")
           for m in mismatches:
-              print(" ", m)
+              print(f"  {m}")
           sys.exit(1)
-      print("OK: flows/ and .gitlab/duo/ are in sync")
+
+      flows_count = len(glob.glob("flows/*.yml"))
+      duo_count = len(glob.glob(".gitlab/duo/*.yml"))
+      print(f"OK: {flows_count} flows, {duo_count} duo files — bidirectional sync confirmed")
       PYEOF
 
-test_standup_logic:
+test_all_agents:
   stage: test
   image: python:3.10
   script:
-    - python3 -m unittest discover -s tests -v
+    - pip install pyyaml pytest==8.1.1
+    - python3 -m pytest tests/ -v --tb=short

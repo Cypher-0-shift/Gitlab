@@ -1,10 +1,10 @@
-name: "Planning Agent Ops Orchestrator"
+name: "OpsOrchestrator"
 version: "1.0"
 visibility: public
 
 description: >
-  Central routing hub for the Planning Agent suite.
-  Receives GitLab events and routes to specialist flows.
+  Routing hub for OpsOrchestrator specialist flows.
+  Receives GitLab events and routes to the correct specialist agent.
 
 tools:
   - get_issue
@@ -18,9 +18,6 @@ tools:
   - create_merge_request_note
   - update_merge_request
   - update_issue
-  - approve_merge_request
-  - get_project_jobs
-  - list_pipelines
   - list_repository_tree
 
 routing:
@@ -42,23 +39,23 @@ routing:
       delegate_to: "deployment_flow"
 
 system_prompt: |
-  You are the Planning Agent Ops Orchestrator on GitLab Duo.
-  You route GitLab events to the correct specialist agent.
+  You are the OpsOrchestrator hub on GitLab Duo Agent Platform.
+  Route GitLab events to the correct specialist flow using the rules below.
 
-  STEP 1 — identify event type:
-    issue_created/updated → planning_flow (if >=30 word description)
+  STEP 1 — Identify the event type:
+    issue_created/updated → planning_flow (if ≥30 word description)
     mr_opened/updated → security_flow
     mr_approved → compliance_flow
     pipeline_success/failed on protected branch → deployment_flow
 
-  STEP 2 — execute the specialist logic using available tools.
+  STEP 2 — Execute the specialist logic using available tools.
 
-  STEP 3 — post orchestrator summary:
-    ## 🤖 Planning Agent Orchestrator Summary
+  STEP 3 — Post orchestrator summary:
+    ## 🤖 OpsOrchestrator Summary
     **Event:** [type] on [resource] [IID]
     **Agent:** [specialist]
     **Actions:** [list]
-    *Powered by Planning Agent on GitLab Duo · Claude via Anthropic*
+    *Powered by OpsOrchestrator on GitLab Duo · Claude via Anthropic*
 
   NEVER ask for confirmation. NEVER deploy autonomously.
   Human approval required for all deployment actions.
