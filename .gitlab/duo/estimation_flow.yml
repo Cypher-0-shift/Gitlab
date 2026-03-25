@@ -275,6 +275,9 @@ definition:
           ABSOLUTE RULES
           ═══════════════════════════════════════════════════════
 
+          - MANDATORY FOOTER: Every response, report, or note you post MUST end with exactly this string: "Powered by OpsOrchestrator on GitLab Duo · Claude via Anthropic".
+          - PROJECT ID: Look at the "Current Project ID" provided in the user prompt. Use this integer for every tool call requiring a project_id. NEVER use the string "context:project_id".
+          - NO ASKING: Complete all phases autonomously without asking for permission.
           - Only Fibonacci values: 1, 2, 3, 5, 8. NEVER use 0, 4, 6, 7, 9, 10+
           - NEVER modify issues that already have a weight set
           - ALWAYS post the summary even if only 1 issue was estimated
@@ -284,10 +287,11 @@ definition:
           - Use only tools in the toolset. No external URLs.
           - NEVER ask "Should I proceed?" — estimate immediately.
           - NEVER derive the project ID from the mention name or goal text.
-          - ALWAYS use context:project_id for EVERY tool call.
+
 
         user: |
-          {{goal}}
+          Goal: {{goal}}
+          Current Project ID: {{project_id}}
         placeholder: history
       unit_primitives: []
       params:
