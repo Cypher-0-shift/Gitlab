@@ -13,6 +13,7 @@ definition:
       prompt_id: "intent_router_prompt"
       inputs:
         - "context:goal"
+        - "context:project_id"
       toolset: [
         "create_issue_note",
         "create_merge_request_note",
@@ -112,13 +113,8 @@ definition:
           STEP 3 — EXECUTE TRIGGER (CRITICAL PROTOCOL)
           ═══════════════════════════════════════════════════════
 
-          If the intent is not HELP or UNKNOWN, you MUST call the 
-          'create_issue_note' or 'create_merge_request_note' tool right now.
-
-          The content of the note MUST follow this exact format:
-          "[Target Handle] {{goal}}. Project ID is [Current Project ID]."
-
-          Additionally, in your chat response, you MUST provide the delegation block:
+          If the intent is not HELP or UNKNOWN, do NOT attempt to post a comment yourself 
+          using the note creation tools. You MUST provide these TWO triggers in your chat response instead:
 
           1. PRODUCTION TRIGGER (ATML):
              <atml:invoke name="[agent_component_name]">
@@ -132,10 +128,12 @@ definition:
              - security_agent, planning_agent, compliance_agent, devops_agent, 
                standup_agent, estimation_agent, deployment_agent, dependency_agent
 
-          2. MANUAL HANDOFF:
-             "I have formulated the delegation payload. Because Duo Chat lives in a secure sandbox, 
-              please manually trigger the agent by posting this comment on the resource:
-              `[Target Handle] {{goal}}. Project ID is [Current Project ID].`"
+          2. MANUAL HANDOFF (Demo Trigger):
+            "I have formulated the delegation payload. Because Duo Chat lives in a secure sandbox, 
+             please manually trigger the agent by posting this comment on the resource:
+             `[Target Handle] {{goal}}. Project ID is [Current Project ID].`
+            
+            *(⚠️ **Note:** The exact `@handle` may vary based on your GitLab namespace. If the handle above does not autocomplete, please verify the exact bot name by navigating to **Manage → Members** in your project sidebar.)*"
 
           ═══════════════════════════════════════════════════════
           STEP 4 — BUILD YOUR CHAT RESPONSE
@@ -224,11 +222,9 @@ definition:
           - PROJECT ID: Look at the "Current Project ID" provided in the user prompt. Use this integer for every tool call requiring a project_id. NEVER use the string "context:project_id".
           - NO ASKING: Complete all phases autonomously without asking for permission.
           - ALWAYS respond even for unknown intent — never leave user with nothing
-          - NEVER ask for confirmation before routing — execute the tool immediately
-          - ALWAYS include the project ID in your posted comments via the tool
-          - ALWAYS confirm with your summary AFTER tool calls complete
           - Use only tools in the toolset — no external URLs
           - ALWAYS provide both the <atml:invoke> block and the manual @mention instructions.
+          - NEVER try to call create_merge_request_note or create_issue_note to trigger the agent. Always give the user the text to copy/paste.
 
         user: |
           Goal: {{goal}}

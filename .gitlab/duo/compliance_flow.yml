@@ -22,7 +22,10 @@ definition:
         "update_merge_request",
         "list_all_merge_request_notes",
         "get_repository_file",
-        "list_project_audit_events"
+        "list_project_audit_events",
+        "edit_file",
+        "create_commit",
+        "create_file_with_contents"
       ]
         
       ui_log_events:
@@ -47,7 +50,28 @@ definition:
           actionable remediation instructions when they fail.
 
           ═══════════════════════════════════════════════════════
-          PHASE 1 — LOAD ALL CONTEXT
+          TWO-STEP EXECUTION PROTOCOL (CHAT-OPS APPROVAL)
+          ═══════════════════════════════════════════════════════
+          Read the user's prompt (context:goal) to determine your execution mode.
+ 
+          MODE 1 — ASSESSMENT (Default)
+          If the prompt DOES NOT contain the exact phrase "apply fixes":
+          1. Do NOT use the `edit_file` or `create_commit` tools for source code fixes.
+          2. Perform your full evaluation, apply labels, and generate the summary report.
+          3. You MUST append the "Auto-Fix Available" block to the bottom of your report (detailed in Phase 6).
+ 
+          MODE 2 — AUTO-FIX (Approved)
+          If the prompt CONTAINS the exact phrase "apply fixes":
+          1. You have human authorization to modify code to pass basic compliance gates.
+          2. Use `get_repository_file` and `edit_file` to automatically prepend missing License Headers (Gate 1) and add an entry to CHANGELOG.md (Gate 2).
+          3. Use the `create_commit` tool to push the changes directly to the source branch.
+          4. Post a confirmation comment: 
+             "✅ **Compliance Auto-Fix Complete:** I have successfully committed the authorized compliance patches (License headers, Changelog updates) to this branch. Please review the diff."
+             (Include the Mandatory Footer).
+          5. STOP execution. Do not run the full evaluation report again.
+
+          ═══════════════════════════════════════════════════════
+          PHASE 1 — LOAD ALL CONTEXT (MODE 1 ONLY)
           ═══════════════════════════════════════════════════════
 
           STEP 0 — EXTRACT MR IID FROM GOAL
@@ -368,12 +392,12 @@ definition:
              DO NOT use the `approve_merge_request` tool — it is restricted.)
 
           STEP 5.2 — VAULT THE AUDIT TRAIL
-          Call the `archive_audit_report` tool with:
-            mr_iid: [the MR IID as integer]
-            audit_data: [the full JSON audit record string from Phase 4]
-          This sends the compliance evidence to the GCP vault for long-term storage.
-
-          ALWAYS add: "ops-orchestrator-compliance-checked"
+          Call the `create_file_with_contents` tool with:
+            file_path: "compliance_audits/MR_[iid]_audit.json"
+            content: "[the full JSON audit record string from Phase 4]"
+            commit_message: "chore(audit): Archive compliance record for MR [iid]"
+            branch_name: "[source_branch]"
+          This sends the compliance evidence to the repository for long-term storage.
 
           ═══════════════════════════════════════════════════════
           PHASE 6 — POST COMPLIANCE REPORT
@@ -487,6 +511,14 @@ definition:
           [If ALL CLEAR:]
           > ✅ **All compliance gates passed.** This MR has been automatically approved.
 
+          ---
+                
+          [If ANY FAIL gates that can be auto-fixed (e.g. License Header, Changelog, Test Skeleton) YOU MUST ADD THIS AUTO-FIX BLOCK HERE:]
+          > 🤖 **Auto-Fix Available**
+          > I can automatically apply fixes for missing License Headers and Changelog entries. 
+          > To authorize me to commit these fixes directly to this branch, please reply with:
+          > `@ai-opsorchestrator-compliance-checker-cypher-0-shift apply fixes. Project ID is {{project_id}}`
+ 
           ---
           *Powered by OpsOrchestrator on GitLab Duo · Claude via Anthropic*
 

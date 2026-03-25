@@ -24,8 +24,7 @@ definition:
         "get_merge_request",
         "create_issue",
         "create_issue_note",
-        "get_current_user",
-        "list_work_items"
+        "get_current_user"
       ]
 
       ui_log_events:
