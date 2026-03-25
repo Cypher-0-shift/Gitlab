@@ -12,7 +12,6 @@ definition:
       inputs:
         - "context:goal"
         - "context:project_id"
-        - "context:current_user"
       toolset: [
         "get_issue",
         "list_issues",
@@ -95,8 +94,8 @@ definition:
           From the list_issues results in STEP 1.4, collect all unique
           assignee usernames and ids found in the assignee fields.
           Build roster: { username, id } for each unique assignee.
-          Also include context:current_user as a team member.
-
+          Call get_current_user to identify the project owner, and include them as a team member.
+          
           STEP 1.4 — LOAD BACKLOG
           Call list_issues with state=opened (up to 50).
           Build two maps:
