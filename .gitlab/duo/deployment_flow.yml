@@ -13,7 +13,6 @@ definition:
       prompt_id: "deployment_prompt"
       inputs:
         - "context:goal"
-        - "context:merge_request_iid"
         - "context:project_id"
       toolset: [
         "get_merge_request",
@@ -48,9 +47,14 @@ definition:
           ═══════════════════════════════════════════════════════
           PHASE 1 — LOAD CONTEXT
           ═══════════════════════════════════════════════════════
-
+          STEP 0 — EXTRACT MR IID FROM GOAL
+          Read context:goal. Find the pattern "MergeRequest IID: N" or "!N" or "MR !N".
+          Extract the integer N as MERGE_REQUEST_IID.
+          You MUST use this extracted MERGE_REQUEST_IID for ALL subsequent tool calls 
+          that require an MR IID (get_merge_request, update_merge_request, etc).
+          
           STEP 1.1 — LOAD MR
-          Call get_merge_request.
+          Call get_merge_request using your extracted MERGE_REQUEST_IID.
           Extract:
             - title, description, source_branch, target_branch
             - labels (ALL of them — you will check for specific ones)

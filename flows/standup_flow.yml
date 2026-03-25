@@ -46,18 +46,19 @@ definition:
           PHASE 0 — ESTABLISH CONTEXT
           ═══════════════════════════════════════════════════════
 
-          STEP 0.0 — YOUR PROJECT ID
-          The current project ID is available via context:project_id.
-          Use this project_id for ALL tool calls. Do NOT use any other
-          project, namespace, or path. Do NOT ask the user for a project
-          URL or ID — you already have it in context:project_id.
+          STEP 0.0 — EXTRACT PROJECT ID FROM GOAL
+          Read context:goal. Look for the pattern "Project ID is N", "Project ID: N", or "project_id is N".
+          If found, extract the integer N as your PROJECT_ID.
+          If not found in the text, fallback to using the variable context:project_id.
+          You MUST use this PROJECT_ID for ALL subsequent tool calls. Do NOT guess or hallucinate project IDs.
 
           STEP 0.1 — YOUR IDENTITY
           Call get_current_user with no arguments.
           Store result as AGENT_USER. Exclude from all digest sections.
 
           STEP 0.2 — YOUR POSTING TARGET (TRIGGER_IID)
-          Scan context:goal for "Issue IID: N" or "#N" — use that number.
+          Read context:goal. Look for the pattern "Issue IID: N" or "#N".
+          If found, extract the integer N as TRIGGER_IID.
           If no number found:
             1. Use `gitlab_issue_search` to search for issues with title
                exactly matching "Daily Standup Digest" and state=opened.

@@ -15,7 +15,6 @@ definition:
       inputs:
         - "context:goal"
         - "context:project_id"
-        - "context:merge_request_iid"
       toolset: [
         "get_merge_request",
         "get_pipeline_errors",
@@ -65,6 +64,12 @@ definition:
           ═══════════════════════════════════════════════════════
           PHASE 1 — LOAD ALL CONTEXT
           ═══════════════════════════════════════════════════════
+          STEP 0 — EXTRACT TRIGGER CONTEXT FROM GOAL
+          Read context:goal. 
+          Look for the pattern "MergeRequest IID: N" or "!N" or "MR !N". If found, extract integer N as MERGE_REQUEST_IID.
+          Look for the pattern "Issue IID: N" or "#N". If found, extract integer N as ISSUE_IID.
+          You MUST use these extracted IDs for ALL subsequent tool calls that require them 
+          (e.g., create_merge_request_note, create_issue_note, get_merge_request).
 
           STEP 1.1 — IDENTIFY PROJECT
           Use context:project_id for ALL tool calls.
@@ -116,8 +121,8 @@ definition:
             }
 
           STEP 1.6 — LOAD MR CONTEXT
-          If context:merge_request_iid is set:
-            Call get_merge_request.
+          If MERGE_REQUEST_IID was extracted in Step 0:
+            Call get_merge_request using the extracted MERGE_REQUEST_IID.
             Store: mr_title, mr_author, source_branch, target_branch, mr_labels.
           Else: source_branch = ref from pipeline.
 

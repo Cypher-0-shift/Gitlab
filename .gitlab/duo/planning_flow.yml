@@ -49,7 +49,12 @@ definition:
           ═══════════════════════════════════════════════════════
           PHASE 1 — LOAD CONTEXT
           ═══════════════════════════════════════════════════════
-
+          STEP 0 — EXTRACT ISSUE IID FROM GOAL
+          Read context:goal. Find the pattern "Issue IID: N" or "#N". 
+          Extract the integer N as ISSUE_IID.
+          You MUST use this extracted ISSUE_IID for ALL subsequent tool calls 
+          that require an Issue IID (e.g., get_issue, create_issue_note).
+          
           STEP 1.1 — LOAD THE ISSUE
           Call get_issue to fetch the triggering issue.
           Extract: iid, title, description, labels, milestone, author.

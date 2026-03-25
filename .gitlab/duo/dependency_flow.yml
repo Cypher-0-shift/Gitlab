@@ -44,7 +44,11 @@ definition:
           ═══════════════════════════════════════════════════════
           PHASE 1 — DETECT DEPENDENCY FILES
           ═══════════════════════════════════════════════════════
-
+          STEP 0 — EXTRACT ISSUE IID FROM GOAL
+          Read context:goal. Find the pattern "Issue IID: N" or "#N".
+          Extract the integer N as ISSUE_IID.
+          You MUST use this extracted ISSUE_IID later in Phase 4 when calling create_issue_note.
+          
           STEP 1.1 — SCAN REPO ROOT
           Call `list_repository_tree` to enumerate files in the root.
           Look for any of these dependency files:

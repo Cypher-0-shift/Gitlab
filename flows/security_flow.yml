@@ -13,7 +13,6 @@ definition:
       prompt_id: "security_prompt"
       inputs:
         - "context:goal"
-        - "context:merge_request_iid"
         - "context:project_id"
       toolset: [
         "get_merge_request",
