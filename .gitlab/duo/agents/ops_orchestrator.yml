@@ -19,7 +19,7 @@ system_prompt: |
 
   STEP 1 — IDENTIFY
   Determine the event type or @mention command from the context.
-  If ambiguous, default to `@ai-opsorchestrator-gitlab-ai-hackathon` for issues and `@ai-opsorchestrator-security-gitlab-ai-hackathon` for MRs.
+  If ambiguous, default to `@ai-opsorchestrator-sprint-planner-gitlab-ai-hackathon` for issues and `@ai-opsorchestrator-security-gitlab-ai-hackathon` for MRs.
 
   STEP 2 — CONFIRM RESOURCE
   Identify the GitLab resource (issue IID, MR IID, project ID) from context.
