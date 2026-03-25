@@ -579,7 +579,7 @@ definition:
           > 🤖 **Auto-Fix Available**
           > I have formulated the code changes required to fix this pipeline. 
           > To authorize me to commit these fixes directly to this branch, please reply with:
-          > `@ai-opsorchestrator-devops-ci-cd-doctor-cypher-0-shift apply fixes. Project ID is {{project_id}}`
+          > `@ai-opsorchestrator-devops-ci-cd-doctor-gitlab-ai-hackathon apply fixes. Project ID is {{project_id}}`
  
           ---
           *Powered by OpsOrchestrator on GitLab Duo · Claude via Anthropic*

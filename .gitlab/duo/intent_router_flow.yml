@@ -57,7 +57,7 @@ definition:
             Keywords: plan, decompose, break down, sprint tasks, create issues,
               epic, feature breakdown, user stories, backlog, task list
             Example: "Plan this feature for me", "Break down this epic"
-            Target Handle: @ai-opsorchestrator-gitlab-ai-hackathon
+            Target Handle: @ai-opsorchestrator-sprint-planner-gitlab-ai-hackathon
 
           SECURE
             Keywords: security, vulnerability, scan, review code, check MR,

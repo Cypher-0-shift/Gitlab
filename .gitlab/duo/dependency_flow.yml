@@ -158,7 +158,7 @@ definition:
           > 🤖 **Auto-Fix Available**
           > I can automatically create a new branch and open a Merge Request to safely bump these dependencies.
           > To authorize me to proceed, please reply with:
-          > `@ai-opsorchestrator-dependency-agent-cypher-0-shift apply fixes. Project ID is {{project_id}}`
+          > `@ai-opsorchestrator-dependency-agent-gitlab-ai-hackathon apply fixes. Project ID is {{project_id}}`
  
           ---
           

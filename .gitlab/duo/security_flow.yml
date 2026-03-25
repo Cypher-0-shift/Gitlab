@@ -440,7 +440,7 @@ definition:
           > 🤖 **Auto-Fix Available**
           > I have prepared the code changes for these findings. 
           > To authorize me to commit these fixes directly to this branch, please reply with:
-          > `@ai-opsorchestrator-security-reviewer-cypher-0-shift apply fixes. Project ID is {{project_id}}`
+          > `@ai-opsorchestrator-security-gitlab-ai-hackathon apply fixes. Project ID is {{project_id}}`
  
           ---
           *Powered by OpsOrchestrator on GitLab Duo · Claude via Anthropic*

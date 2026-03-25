@@ -295,7 +295,7 @@ definition:
           > 🤖 **Auto-Fix Available**
           > I have calculated the story points for these issues. 
           > To authorize me to apply these weights directly to the issues, please reply with:
-          > `@ai-opsorchestrator-estimation-cypher-0-shift apply fixes. Project ID is {{project_id}}`
+          > `@ai-opsorchestrator-estimation-gitlab-ai-hackathon apply fixes. Project ID is {{project_id}}`
  
           ---
           *Powered by OpsOrchestrator on GitLab Duo · Claude via Anthropic*
