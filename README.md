@@ -4,7 +4,7 @@
 [![GitLab Duo](https://img.shields.io/badge/GitLab%20Duo-Agent%20Platform-FC6D26)](https://about.gitlab.com/blog/gitlab-duo-agent-platform-complete-getting-started-guide/)
 [![Anthropic](https://img.shields.io/badge/Powered%20by-Claude%20via%20GitLab%20Duo-6B4FBB)](https://www.anthropic.com)
 
-> **Demo video:** [Watch the 3-minute demo on YouTube](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+> **Demo video:** [Watch the 3-minute demo on YouTube](https://www.youtube.com/watch?v=84L7dXv2gRk)
 > <!-- ⚠️ TODO: Replace dQw4w9WgXcQ above with your actual unlisted YouTube video ID before Devpost submission -->
 
 Converts GitLab issues and epics into complete sprint plans, security
